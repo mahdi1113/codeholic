@@ -1,0 +1,51 @@
+
+import {createBrowserRouter} from 'react-router-dom'
+import App from './App';
+
+import Dashboard from './views/Dashboard';
+import SignUp from './views/Signup';
+import Surveys from './views/Surveys';
+import Login from './views/Login';
+import GuestLayout from './components/GuestLayout';
+import { Children } from 'react';
+import DefultLayout from './components/DefultLayout';
+
+const router = createBrowserRouter([
+
+
+    {
+        path: '/',
+        element: <DefultLayout />,
+        children: [
+            {
+                path: 'dashboard',
+                element: <Dashboard />
+            },
+
+            {
+                path: 'surveys',
+                element: <Surveys />
+            },
+
+        ]
+    },
+
+    {
+        path: '/',
+        element: <GuestLayout />,
+        children: [
+
+            {
+                path: 'signUp',
+                element: <SignUp />
+            },
+
+            {
+                path: 'Login',
+                element: <Login />
+            },
+        ]
+    }
+]);
+
+export default router;

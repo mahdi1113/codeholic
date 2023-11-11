@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Vazir'; /* نام فونت */
+    src: url('./vazir-font-v16.1.0/Vazir-Bold.woff2') format('woff2'), /* منبع فونت */
+         url('./vazir-font-v16.1.0/Vazir-Light.woff') format('woff'); /* منبع فونت */
+  }
+
+
+
+body {
+  font-family: "Vazir", sans-serif !important;
+  font-size: 20px;
+}
