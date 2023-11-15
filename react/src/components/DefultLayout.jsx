@@ -60,6 +60,12 @@ export default function DefultLayout() {
                                 نظر سنجی ها
                             </Link>
                             <Link
+                                className="nav-item nav-link d-flex"
+                                to="/createRole"
+                            >
+                                نقش ها
+                            </Link>
+                            <Link
                                 className="nav-link"
                                 onClick={(e) => logoutUser(e)}
                             >

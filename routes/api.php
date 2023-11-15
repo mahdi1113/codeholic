@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\SurveyController;
 
 /*
@@ -25,3 +27,5 @@ Route::post('signup',[AuthController::class, 'signup']);
 Route::post('login',[AuthController::class,'login']);
 
 
+Route::post('users',[UserController::class, 'apiIndex']);
+Route::post('role',[RoleController::class ,'index']);

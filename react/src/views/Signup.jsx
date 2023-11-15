@@ -40,7 +40,7 @@ export default function Signup() {
 
     const icon = {
         fontSize:
-            "10em" /* تغییر اندازه آیکون به دلخواه با استفاده از font-size */,
+        "10em" /* تغییر اندازه آیکون به دلخواه با استفاده از font-size */,
     };
     return (
         <>

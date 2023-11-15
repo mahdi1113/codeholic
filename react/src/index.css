@@ -10,3 +10,9 @@ body {
   font-family: "Vazir", sans-serif !important;
   font-size: 20px;
 }
+/* import the TreeView dependency styles */
+
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-react-navigations/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";

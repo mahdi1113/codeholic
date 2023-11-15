@@ -1,5 +1,289 @@
+import { useEffect, useState } from "react";
+import axiosClient from "../axios"
+import Test2 from "./Test2";
+import { TreeViewComponent } from '@syncfusion/ej2-react-navigations';
 export default function Test() {
+    const [data , setData] = useState([]);
+    useEffect(() => {
+        axiosClient.post('role').then(res => {
+            // console.log(res);
+            setData(res.data);
+        }).catch(error =>{
+            console.log(error.response);
+        })
+    },[])
+
+
+    // const hierarchicalData =
+    // [
+    //     {
+    //         "id": 1,
+    //         "title": "title1",
+    //         "description": "this is title1",
+    //         "parent_id": 0,
+    //         "created_at": null,
+    //         "updated_at": null,
+    //         "sub_child": [
+    //             {
+    //                 "id": 2,
+    //                 "title": "title2",
+    //                 "description": "this is title2",
+    //                 "parent_id": 1,
+    //                 "created_at": null,
+    //                 "updated_at": null,
+    //                 "sub_child": [
+    //                     {
+    //                         "id": 5,
+    //                         "title": "title5",
+    //                         "description": "this is title5",
+    //                         "parent_id": 2,
+    //                         "created_at": null,
+    //                         "updated_at": null,
+    //                         "sub_child": [
+    //                             {
+    //                                 "id": 6,
+    //                                 "title": "title6",
+    //                                 "description": "this is title6",
+    //                                 "parent_id": 5,
+    //                                 "created_at": null,
+    //                                 "updated_at": null,
+    //                                 "sub_child": []
+    //                             }
+    //                         ]
+    //                     }
+    //                 ]
+    //             },
+    //             {
+    //                 "id": 3,
+    //                 "title": "title3",
+    //                 "description": "this is title3",
+    //                 "parent_id": 1,
+    //                 "created_at": null,
+    //                 "updated_at": null,
+    //                 "sub_child": []
+    //             },
+    //             {
+    //                 "id": 4,
+    //                 "title": "title4",
+    //                 "description": "this is title4",
+    //                 "parent_id": 1,
+    //                 "created_at": null,
+    //                 "updated_at": null,
+    //                 "sub_child": []
+    //             }
+    //         ]
+    //     }
+    // ]
+
+
+    const fields = { dataSource: data, id: 'id', text: 'title', child: 'sub_child' };
+
   return (
-    <div>Test</div>
+    <>
+
+       <TreeViewComponent fields={fields}/>
+    </>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // RoleTree.js
+
+// ////////////////////////////////////////////////////////////////////////////////
+// // App.js
+// // import React from 'react';
+// // import RoleTree from './RoleTree'; // مسیر صحیح را وارد کنید
+// // import Test2 from "./Test2";
+
+// // const App = () => {
+// //   const rolesData = [
+// //     {
+// //       id: 1,
+// //       name: 'Super Admin',
+// //       children: [
+// //         {
+// //           id: 2,
+// //           name: 'Admin',
+// //           children: [
+// //             { id: 3, name: 'Editor' },
+// //             { id: 4, name: 'Viewer' },
+// //           ],
+// //         },
+// //         { id: 5, name: 'Moderator' },
+// //       ],
+// //     },
+// //   ];
+
+// //   return (
+// //     <div>
+// //       <h1>نمایش درخت نقش‌ها در ری‌اکت</h1>
+// //       <RoleTree data={rolesData} />
+// //     </div>
+// //   );
+// // };
+
+
+
+
+
+
+
+// import { TreeViewComponent } from '@syncfusion/ej2-react-navigations';
+// function Test() {
+//     console.log('salam');
+//     // define the array of data
+//     const hierarchicalData = [
+
+//         {
+
+//             "id": 1,
+
+//             "title": "title1",
+
+//             "description": "this is title1",
+
+//             "parent_id": 0,
+
+//             "created_at": null,
+
+//             "updated_at": null,
+
+//             "sub_child": [
+
+//                 {
+
+//                     "id": 2,
+
+//                     "title": "title2",
+
+//                     "description": "this is title2",
+
+//                     "parent_id": 1,
+
+//                     "created_at": null,
+
+//                     "updated_at": null,
+
+//                     "sub_child": [
+
+//                         {
+
+//                             "id": 5,
+
+//                             "title": "title5",
+
+//                             "description": "this is title5",
+
+//                             "parent_id": 2,
+
+//                             "created_at": null,
+
+//                             "updated_at": null,
+
+//                             "sub_child": [
+
+//                                 {
+
+//                                     "id": 6,
+
+//                                     "title": "title6",
+
+//                                     "description": "this is title6",
+
+//                                     "parent_id": 5,
+
+//                                     "created_at": null,
+
+//                                     "updated_at": null,
+
+//                                     "sub_child": []
+
+//                                 }
+
+//                             ]
+
+//                         }
+
+//                     ]
+
+//                 },
+
+//                 {
+
+//                     "id": 3,
+
+//                     "title": "title3",
+
+//                     "description": "this is title3",
+
+//                     "parent_id": 1,
+
+//                     "created_at": null,
+
+//                     "updated_at": null,
+
+//                     "sub_child": []
+
+//                 },
+
+//                 {
+
+//                     "id": 4,
+
+//                     "title": "title4",
+
+//                     "description": "this is title4",
+
+//                     "parent_id": 1,
+
+//                     "created_at": null,
+
+//                     "updated_at": null,
+
+//                     "sub_child": []
+
+//                 }
+
+//             ]
+
+//         }
+
+//     ];
+//     const fields = { dataSource: hierarchicalData, id: 'id', text: 'title', child: 'sub_child' };
+//     return (
+//     // specifies the tag for render the TreeView component
+//     <TreeViewComponent fields={fields}/>);
+// }
+// export default Test;

@@ -9,9 +9,10 @@ import Login from './views/Login';
 import GuestLayout from './components/GuestLayout';
 import { Children } from 'react';
 import DefultLayout from './components/DefultLayout';
+import Test from './views/Test';
+import CreateRole from './views/Role/CreateRole';
 
 const router = createBrowserRouter([
-
 
     {
         path: '/',
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
                 path: 'surveys',
                 element: <Surveys />
             },
+            {
+                path: 'test',
+                element: <Test />
+            },
+            {
+                path: 'createRole',
+                element: <CreateRole />
+            }
 
         ]
     },

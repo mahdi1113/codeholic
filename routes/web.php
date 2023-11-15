@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\SetRole;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RelationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('users',[UserController::class, 'index']);
+Route::get('formRole/{user}',[SetRole::class, 'form'])->name('setFormRole');
+Route::post('formRole/{user}',[SetRole::class, 'setForm'])->name('setRole');
+Route::get('makeRelation/{user}',[RelationController::class, 'showRelationForm'])->name('showRelationForm');
+Route::post('makeRelation/{user}',[RelationController::class, 'makeRelation'])->name('makeRelation');
+
