@@ -31,10 +31,7 @@ const router = createBrowserRouter([
                 path: 'test',
                 element: <Test />
             },
-            {
-                path: 'createRole',
-                element: <CreateRole />
-            }
+            
 
         ]
     },
@@ -53,6 +50,10 @@ const router = createBrowserRouter([
                 path: 'Login',
                 element: <Login />
             },
+            {
+                path: 'createRole',
+                element: <CreateRole />
+            }
         ]
     }
 ]);
