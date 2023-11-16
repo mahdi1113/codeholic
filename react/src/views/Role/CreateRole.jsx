@@ -27,6 +27,19 @@ export default function CreateRole() {
                 console.log(error.response);
             });
     }, []);
+   
+        function handleSubmit(e) {
+          e.preventDefault();
+        // axiosClient
+        //     .post("role")
+        //     .then((res) => {
+        //         // console.log(res);
+        //         setData(res.data);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error.response);
+        //     });
+        }
 
     return (
         <>
@@ -38,7 +51,7 @@ export default function CreateRole() {
                                 <h4 className="mb-0">فرم ایجاد نقش</h4>
                             </div>
                             <div className="card-body">
-                                <form>
+                                <form onSubmit={handleSubmit}>
                                     <div className="form-group mb-1">
                                         <label htmlFor="name" className="mb-1">
                                             عنوان:
