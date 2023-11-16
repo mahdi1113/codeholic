@@ -1,13 +1,18 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios";
-import Test3 from "./Test3";
-import { TreeViewComponent } from "@syncfusion/ej2-react-navigations";
+
+
+import Tree from "./Tree";
+import { TreeViewComponent } from '@syncfusion/ej2-react-navigations';
 
 
 export default function CreateRole() {
     const [data, setData] = useState([]);
     const [selectedRoleId, setSelectedRoleId] = useState(null);
+
+    const [expandedNodes, setExpandedNodes] = useState([]);
+    const [selectedNode, setSelectedNode] = useState(null);
 
     const handleRoleSelect = (roleId) => {
         // اطلاع از تغییرات در انتخاب نقش
@@ -75,7 +80,15 @@ export default function CreateRole() {
                                         >
                                             <Test3 data={data} />
                                         </select> */}
-                                                <Test3 data={data} />
+
+                                        <Tree
+                                        data={data}
+                                        expandedNodes={expandedNodes}
+                                        setExpandedNodes={setExpandedNodes}
+                                        selectedNode={selectedNode}
+                                        setSelectedNode={setSelectedNode}
+                                        />
+
 
                                         {/* /////////////////////////////////// */}
                                     </div>
