@@ -1,16 +1,14 @@
-/* افزودن یک انیمیشن ساده برای جلوگیری از انقباض ناگهانی */
-ul, li {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+.parent {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #ddd;
   }
 
-  /* استایل برای تاکید بر روی تگ‌های فرزند */
-  li ul {
-    display: none;
-    margin-left: 20px;
+  .child-container {
+    overflow: hidden;
   }
-
-  li.active ul {
-    display: block;
+  .child {
+    margin: 5px;
+    padding: 5px;
+    background-color: lightblue;
   }

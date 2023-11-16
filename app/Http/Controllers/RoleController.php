@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -24,7 +25,13 @@ class RoleController extends Controller
         // $allChildren = $roles->allChildren;
 
         return response()->json($roles);
+/////////////////////////////////////////////////////////////////////////////////////////////
 
+        // $user = User::with('role')->find(1);
+        // return $user;
+
+        // $role = Role::with('users','subChild')->find(1);
+        // return $role;
     }
 
     /**

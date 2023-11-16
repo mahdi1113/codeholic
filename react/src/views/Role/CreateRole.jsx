@@ -2,9 +2,9 @@ import React from "react";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios";
 import Test3 from "./Test3";
-import { TreeViewComponent } from '@syncfusion/ej2-react-navigations';
+import { TreeViewComponent } from "@syncfusion/ej2-react-navigations";
 
-axiosClient;
+
 export default function CreateRole() {
     const [data, setData] = useState([]);
     const [selectedRoleId, setSelectedRoleId] = useState(null);
@@ -17,7 +17,7 @@ export default function CreateRole() {
         axiosClient
             .post("role")
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 setData(res.data);
             })
             .catch((error) => {
@@ -75,7 +75,7 @@ export default function CreateRole() {
                                         >
                                             <Test3 data={data} />
                                         </select> */}
-                                        <Test3 data={data} />
+                                                <Test3 data={data} />
 
                                         {/* /////////////////////////////////// */}
                                     </div>
