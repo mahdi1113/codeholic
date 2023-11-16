@@ -1,0 +1,55 @@
+import React, { useState } from "react";
+
+
+const Test3 = ({ data, expandedNodes, setExpandedNodes, selectedNode, setSelectedNode }) => {
+  const toggleNode = (id) => {
+    if (expandedNodes.includes(id)) {
+      setExpandedNodes(expandedNodes.filter((nodeId) => nodeId !== id));
+    } else {
+      setExpandedNodes([...expandedNodes, id]);
+    }
+    setSelectedNode(id);
+  };
+
+  const handleCheckboxChange = (id) => {
+    if (selectedNode === id) {
+      setSelectedNode(null);
+    } else {
+      setSelectedNode(id);
+    }
+  };
+
+  return (
+    <>
+      <ul>
+        {data.map((node) => (
+          <li key={node.id}>
+            <span
+              onClick={() => toggleNode(node.id)}
+              style={{ cursor: "pointer", fontWeight: "bold" }}
+            >
+              <input
+                type="checkbox"
+                checked={node.id === selectedNode}
+                onChange={() => handleCheckboxChange(node.id)}
+                style={{ marginLeft: "5px" }}
+              />
+              {node.title}
+            </span>
+            {node.sub_child && expandedNodes.includes(node.id) && (
+              <Test3
+                data={node.sub_child}
+                expandedNodes={expandedNodes}
+                setExpandedNodes={setExpandedNodes}
+                selectedNode={selectedNode}
+                setSelectedNode={setSelectedNode}
+              />
+            )}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+};
+
+export default Test3;
