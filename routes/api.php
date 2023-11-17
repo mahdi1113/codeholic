@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::apiResource('role',RoleController::class);
     // Route::post('role',[RoleController::class ,'index']);
 });
-
+Route::apiResource('role',RoleController::class);
 Route::post('signup',[AuthController::class, 'signup']);
 Route::post('login',[AuthController::class,'login']);
 

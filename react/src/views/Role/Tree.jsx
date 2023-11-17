@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 
-const Test3 = ({ data, expandedNodes, setExpandedNodes, selectedNode, setSelectedNode }) => {
+const Tree = ({ data, expandedNodes, setExpandedNodes, selectedNode, setSelectedNode }) => {
   const toggleNode = (id) => {
     if (expandedNodes.includes(id)) {
       setExpandedNodes(expandedNodes.filter((nodeId) => nodeId !== id));
@@ -37,7 +37,7 @@ const Test3 = ({ data, expandedNodes, setExpandedNodes, selectedNode, setSelecte
             </span>
               
             {node.sub_child && expandedNodes.includes(node.id) && (
-              <Test3
+              <Tree
                 data={node.sub_child}
                 expandedNodes={expandedNodes}
                 setExpandedNodes={setExpandedNodes}
@@ -52,4 +52,4 @@ const Test3 = ({ data, expandedNodes, setExpandedNodes, selectedNode, setSelecte
   );
 };
 
-export default Test3;
+export default Tree;

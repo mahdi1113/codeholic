@@ -11,7 +11,8 @@ import { Children } from 'react';
 import DefultLayout from './components/DefultLayout';
 import Test from './views/Test';
 import CreateRole from './views/Role/CreateRole';
-
+import EditRole from './views/Role/EditRole';
+import PopupForm from './views/Role/EditRoleModal';
 const router = createBrowserRouter([
 
     {
@@ -31,6 +32,18 @@ const router = createBrowserRouter([
                 path: 'test',
                 element: <Test />
             },
+            {
+                path: 'createRole',
+                element: <CreateRole />
+            },
+            {
+                path: 'editRole',
+                element: <EditRole />
+            },
+            {
+                path: 'testrole',
+                element: <PopupForm />
+            }
             
 
         ]
@@ -50,10 +63,7 @@ const router = createBrowserRouter([
                 path: 'Login',
                 element: <Login />
             },
-            {
-                path: 'createRole',
-                element: <CreateRole />
-            }
+            
         ]
     }
 ]);
