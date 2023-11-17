@@ -3,27 +3,38 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axiosClient from "../axios";
 import { addToken } from "../redux/loginAction";
+import {useState} from 'react'
 export default function DefultLayout() {
-
+    
     let navigate = useNavigate();
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.token);
-    if (!token) {
-        return <Navigate to="login" />;
-    }
+    const token = localStorage.getItem("token");
 
+    const [isRoleDropdownOpen, setRoleDropdownOpen] = useState(false);
+    const handleMouseEnter = () => {
+        setRoleDropdownOpen(true);
+    };
+    const handleMouseLeave = () => {
+        setRoleDropdownOpen(false);
+    };
     const logoutUser = function(e){
         e.preventDefault();
         axiosClient.post('/logout').then(res => {
             dispatch(addToken(''))
             localStorage.removeItem('token');
         }).then(res => {
+            navigate('/Login')
             console.log(res);
         }).catch(error => {
+            alert(JSON.stringify(error))
             console.log(error);
         })
     }
-
+  if(!token)
+  return (
+    <Navigate to="/login"  />
+  );
+  else
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -59,12 +70,46 @@ export default function DefultLayout() {
                             >
                                 نظر سنجی ها
                             </Link>
-                            <Link
+                            {/* <Link
                                 className="nav-item nav-link d-flex"
                                 to="/createRole"
                             >
                                 نقش ها
-                            </Link>
+                            </Link> */}
+                            
+                            <li className="nav-item dropdown">
+                            <a className="nav-link" 
+                                href="#" id="navbarDarkDropdownMenuLink" 
+                                role="button" data-bs-toggle="dropdown" 
+                                aria-expanded="true"
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                            > 
+                                نقش ها
+                            </a>
+                            {isRoleDropdownOpen  && (
+                            <ul className="dropdown-menu dropdown-menu show" 
+                                aria-labelledby="navbarDarkDropdownMenuLink" data-bs-popper="none"
+                                onMouseEnter={handleMouseEnter} 
+                                onMouseLeave={handleMouseLeave}
+                                onClick={handleMouseLeave}
+                                >
+                                <li>
+                                    <Link 
+                                        className="dropdown-item"
+                                        to="/createRole">ایجاد نقش</Link>
+                                </li>
+                                <li>
+                                    <Link 
+                                        className="dropdown-item"
+                                        to="/editRole">ویرایش نقش</Link>
+                                </li>
+                            </ul>
+                            
+                            )}
+                            </li>
+                            
+                            
                             <Link
                                 className="nav-link"
                                 onClick={(e) => logoutUser(e)}

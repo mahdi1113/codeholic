@@ -1,24 +1,46 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios";
-
-
 import Tree from "./Tree";
-import { TreeViewComponent } from '@syncfusion/ej2-react-navigations';
+
 
 
 export default function CreateRole() {
     const [data, setData] = useState([]);
-    const [selectedRoleId, setSelectedRoleId] = useState(null);
-
     const [expandedNodes, setExpandedNodes] = useState([]);
     const [selectedNode, setSelectedNode] = useState(null);
-
-    const handleRoleSelect = (roleId) => {
-        // اطلاع از تغییرات در انتخاب نقش
-        setSelectedRoleId(roleId);
-    };
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+      });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+      };
     useEffect(() => {
+        axiosClient
+            .get("role")
+            .then((res) => {
+                console.log(res);
+                setData(res.data);
+            })
+            .catch((error) => {
+                console.log(error.response);
+            });
+    }, []);
+   
+    function handleSubmit(e) {
+        e.preventDefault();
+        const formDataToSend = new FormData();
+        formDataToSend.append('title', formData.title);
+        formDataToSend.append('description', formData.description);
+        formDataToSend.append('paret_id', selectedNode);
+        console.log(formData.title);
+        console.log(formData.description);
+        console.log(formDataToSend);
         axiosClient
             .post("role")
             .then((res) => {
@@ -28,20 +50,7 @@ export default function CreateRole() {
             .catch((error) => {
                 console.log(error.response);
             });
-    }, []);
-   
-        function handleSubmit(e) {
-          e.preventDefault();
-        // axiosClient
-        //     .post("role")
-        //     .then((res) => {
-        //         // console.log(res);
-        //         setData(res.data);
-        //     })
-        //     .catch((error) => {
-        //         console.log(error.response);
-        //     });
-        }
+    }
 
     return (
         <>
@@ -49,7 +58,7 @@ export default function CreateRole() {
                 <div className="row justify-content-center">
                     <div className="col-md-6">
                         <div className="card">
-                            <div className="card-header">
+                            <div className="card-header text-center">
                                 <h4 className="mb-0">فرم ایجاد نقش</h4>
                             </div>
                             <div className="card-body">
@@ -64,6 +73,8 @@ export default function CreateRole() {
                                             id="name"
                                             name="title"
                                             placeholder="عنوان را وارد کنید"
+                                            value={formData.title}
+                                            onChange={handleChange}
                                         ></input>
                                     </div>
                                     <div className="form-group mb-1">
@@ -75,9 +86,12 @@ export default function CreateRole() {
                                         </label>
                                         <textarea
                                             className="form-control"
-                                            id="exampleTextarea"
+                                            id="Textarea"
+                                            name="description"
                                             rows="3"
                                             placeholder="متن خود را وارد کنید"
+                                            value={formData.description}
+                                            onChange={handleChange}
                                         ></textarea>
                                     </div>
                                     <div className="form-group mb-2">
@@ -107,7 +121,7 @@ export default function CreateRole() {
                                     </div>
                                     <button
                                         type="submit"
-                                        className="btn btn-success mt-1"
+                                        className="btn btn-success mt-1 d-block mx-auto"
                                     >
                                         ایجاد نقش
                                     </button>

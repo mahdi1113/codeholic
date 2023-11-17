@@ -45,9 +45,9 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Role $role)
     {
-        //
+        return response()->json($role);
     }
 
     /**
