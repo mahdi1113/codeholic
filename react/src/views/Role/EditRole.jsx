@@ -9,17 +9,19 @@ export default function EditRole() {
     const [selectedNode, setSelectedNode] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [modalData, setModalData] = useState([]);
-    useEffect(() => {
+    const fetchData = () => {
         axiosClient
             .get("role")
             .then((res) => {
-                // console.log(res);
-                setData(res.data);
+            setData(res.data);
             })
             .catch((error) => {
-                console.log(error.response);
+            console.log(error.response);
             });
-    }, []);
+    };
+      useEffect(() => {
+        fetchData();
+      }, []); // Include selectedNode as a dependency
 
     const openModal = () => {
         const url = "role/"+selectedNode;
@@ -28,6 +30,24 @@ export default function EditRole() {
             .then((res) => {
                 setModalData(res.data);
                 setShowModal(true);
+            })
+            .catch((error) => {
+                console.log(error.response);
+            });
+        
+        
+    };
+    const handleDelete = () => {
+        const url = "role/"+selectedNode;
+        axiosClient
+            .delete(url)
+            .then((res) => {
+                alert(res.data.msg);
+                if(res.status == 200){
+                    fetchData();
+                    closeModal();
+                }
+                    
             })
             .catch((error) => {
                 console.log(error.response);
@@ -70,6 +90,7 @@ export default function EditRole() {
                             data={modalData}
                             showModal={showModal} 
                             closeModal={closeModal}
+                            handleDelete={handleDelete}
                             />
                         </div>
                     </div>
