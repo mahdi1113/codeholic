@@ -15,10 +15,11 @@ class AuthController extends Controller
 
         $data = $request->validated();
 
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['password']
+            'password' => $data['password'],
         ]);
         $token = $user->createToken('main')->plainTextToken;
 

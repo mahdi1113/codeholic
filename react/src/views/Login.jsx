@@ -2,6 +2,8 @@ import { useState } from "react";
 import axiosClient from "../axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addToken } from "../redux/loginAction";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -11,6 +13,7 @@ export default function Login() {
 
     const token = useSelector((state) => state);
     const dispatch = useDispatch();
+    let navigate = useNavigate();
 
     const cursorP = {
         cursor: 'pointer',
@@ -27,6 +30,7 @@ export default function Login() {
             .then((res) => {
                 localStorage.setItem("token", res.data.token);
                 dispatch(addToken(res.data.token));
+                return navigate('/')
                 console.log(res.data);
             })
             .catch((error) => {

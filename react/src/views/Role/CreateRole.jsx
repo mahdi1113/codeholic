@@ -20,7 +20,7 @@ export default function CreateRole() {
     };
     useEffect(() => {
         axiosClient
-            .post("role")
+            .get("role")
             .then((res) => {
                 // console.log(res);
                 setData(res.data);

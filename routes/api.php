@@ -21,7 +21,8 @@ use App\Http\Controllers\SurveyController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout' , [AuthController::class, 'logout']);
     Route::apiResource('survey',SurveyController::class);
-    Route::apiResource('role',RoleController::class);
+    // Route::apiResource('role',RoleController::class);
+    // Route::post('role',[RoleController::class ,'index']);
 });
 
 Route::post('signup',[AuthController::class, 'signup']);
@@ -30,3 +31,5 @@ Route::post('login',[AuthController::class,'login']);
 Route::post('users',[UserController::class, 'apiIndex']);
 // Route::apiResource('role',RoleController::class);
 // Route::post('role',[RoleController::class ,'index']);
+
+Route::apiResource('role',RoleController::class);
