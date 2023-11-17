@@ -8,7 +8,6 @@ const Test3 = ({ data, expandedNodes, setExpandedNodes, selectedNode, setSelecte
     } else {
       setExpandedNodes([...expandedNodes, id]);
     }
-    setSelectedNode(id);
   };
 
   const handleCheckboxChange = (id) => {
@@ -17,7 +16,6 @@ const Test3 = ({ data, expandedNodes, setExpandedNodes, selectedNode, setSelecte
     } else {
       setSelectedNode(id);
     }
-    //salam
   };
 
   return (
@@ -25,18 +23,19 @@ const Test3 = ({ data, expandedNodes, setExpandedNodes, selectedNode, setSelecte
       <ul>
         {data.map((node) => (
           <li key={node.id}>
-            <span
-              onClick={() => toggleNode(node.id)}
-              style={{ cursor: "pointer", fontWeight: "bold" }}
-            >
-              <input
+            <input
                 type="checkbox"
                 checked={node.id === selectedNode}
                 onChange={() => handleCheckboxChange(node.id)}
                 style={{ marginLeft: "5px" }}
               />
+            <span
+              onClick={() => toggleNode(node.id)}
+              style={{ cursor: "pointer", fontWeight: "bold" }}
+            >
               {node.title}
             </span>
+              
             {node.sub_child && expandedNodes.includes(node.id) && (
               <Test3
                 data={node.sub_child}
