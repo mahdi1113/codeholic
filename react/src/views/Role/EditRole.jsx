@@ -7,7 +7,7 @@ export default function EditRole() {
     const [data, setData] = useState([]);
     const [expandedNodes, setExpandedNodes] = useState([]);
     const [selectedNode, setSelectedNode] = useState(null);
-    const [parentselectedNode, setParentSelectedNode] = useState(null);
+    const [parentSelectedNode, setParentSelectedNode] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [roleData, setRoleData] = useState([]);
     const [formData, setFormData] = useState({
@@ -31,16 +31,19 @@ export default function EditRole() {
       }, []); // Include selectedNode as a dependency
 
     const openModal = () => {
-        const url = "role/"+selectedNode;
-        axiosClient
-            .get(url)
-            .then((res) => {
-                setRoleData(res.data);
-                setShowModal(true);
-            })
-            .catch((error) => {
-                console.log(error.response);
-            });  
+        if(selectedNode){
+            const url = "role/"+selectedNode;
+            console.log("AAAAA",parentSelectedNode);
+            axiosClient
+                .get(url)
+                .then((res) => {
+                    setRoleData(res.data);
+                    setParentSelectedNode(res.data.parent_id);
+                    setShowModal(true);
+                })
+                .catch((error) => {
+                });  
+        }
     };
 
     const handleDelete = () => {
@@ -56,7 +59,6 @@ export default function EditRole() {
                 }     
             })
             .catch((error) => {
-                console.log(error.response);
             });
     };
     const closeModal = () => {
@@ -65,14 +67,15 @@ export default function EditRole() {
       
     function handleUpdate(e){
         e.preventDefault();
-        if(parentselectedNode == selectedNode){
+
+        if(parentSelectedNode == selectedNode){
             alert("نقش نمی تواند زیرمجموعه خودش باشد")
         }
-        else{
+        else if(parentSelectedNode){
             const params  = new URLSearchParams();
             params .append('title', formData.title);
             params .append('description', formData.description);
-            params .append('parent_id', parentselectedNode);
+            params .append('parent_id', parentSelectedNode);
             const url = "role/"+selectedNode;
             axiosClient
                 .put(url, params )
@@ -88,6 +91,8 @@ export default function EditRole() {
                     console.log(error.response);
                 });
         }
+    else
+        alert("نقش پدر را انتخاب کنید");
     }
     return(
         <>
@@ -120,8 +125,8 @@ export default function EditRole() {
                                     roleData={roleData}
                                     expandedNodes={expandedNodes}
                                     setExpandedNodes={setExpandedNodes}
-                                    selectedNode={parentselectedNode}
-                                    setSelectedNode={setParentSelectedNode}
+                                    parentSelectedNode={parentSelectedNode}
+                                    setParentSelectedNode={setParentSelectedNode}
                                     showModal={showModal} 
                                     closeModal={closeModal}
                                     handleDelete={handleDelete}

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -9,8 +10,8 @@ const EditRoleModal = ({
   roleData, 
   expandedNodes, 
   setExpandedNodes, 
-  selectedNode, 
-  setSelectedNode, 
+  parentSelectedNode, 
+  setParentSelectedNode, 
   showModal, 
   closeModal, 
   handleDelete, 
@@ -24,7 +25,7 @@ const EditRoleModal = ({
       description: roleData.description ?? "",
     }));
   }, [roleData, setFormData]);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -32,6 +33,7 @@ const EditRoleModal = ({
       [name]: value,
     }));
   };
+
   return (
     <div>
       <Modal show={showModal} onHide={closeModal} size="lg">
@@ -64,12 +66,13 @@ const EditRoleModal = ({
                 />
             </Form.Group>
           </Form>
+           نقش پدر را انتخاب کنید
           <Tree
               data={data}
               expandedNodes={expandedNodes}
               setExpandedNodes={setExpandedNodes}
-              selectedNode={selectedNode}
-              setSelectedNode={setSelectedNode}
+              selectedNode={parentSelectedNode}
+              setSelectedNode={setParentSelectedNode}
           />
         </Modal.Body>
         <Modal.Footer>

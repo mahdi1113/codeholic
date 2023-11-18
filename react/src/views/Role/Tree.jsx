@@ -6,7 +6,7 @@ const Tree = ({
   expandedNodes, 
   setExpandedNodes, 
   selectedNode, 
-  setSelectedNode 
+  setSelectedNode,
 }) => {
   const toggleNode = (id) => {
     if (expandedNodes.includes(id)) {
@@ -15,8 +15,8 @@ const Tree = ({
       setExpandedNodes([...expandedNodes, id]);
     }
   };
-
   const handleCheckboxChange = (id) => {
+    
     if (selectedNode === id) {
       setSelectedNode(null);
     } else {
