@@ -7,8 +7,15 @@ export default function EditRole() {
     const [data, setData] = useState([]);
     const [expandedNodes, setExpandedNodes] = useState([]);
     const [selectedNode, setSelectedNode] = useState(null);
+    const [parentselectedNode, setParentSelectedNode] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [modalData, setModalData] = useState([]);
+    const [roleData, setRoleData] = useState([]);
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        // title: roleData.title,
+        // description: roleData.description ?? "",
+    });
     const fetchData = () => {
         axiosClient
             .get("role")
@@ -28,15 +35,14 @@ export default function EditRole() {
         axiosClient
             .get(url)
             .then((res) => {
-                setModalData(res.data);
+                setRoleData(res.data);
                 setShowModal(true);
             })
             .catch((error) => {
                 console.log(error.response);
-            });
-        
-        
+            });  
     };
+
     const handleDelete = () => {
         const url = "role/"+selectedNode;
         axiosClient
@@ -44,22 +50,45 @@ export default function EditRole() {
             .then((res) => {
                 alert(res.data.msg);
                 if(res.status == 200){
+                    setSelectedNode(null);
                     fetchData();
                     closeModal();
-                }
-                    
+                }     
             })
             .catch((error) => {
                 console.log(error.response);
             });
-        
-        
     };
-    
-      const closeModal = () => {
+    const closeModal = () => {
         setShowModal(false);
-      };
+    };
       
+    function handleUpdate(e){
+        e.preventDefault();
+        if(parentselectedNode == selectedNode){
+            alert("نقش نمی تواند زیرمجموعه خودش باشد")
+        }
+        else{
+            const params  = new URLSearchParams();
+            params .append('title', formData.title);
+            params .append('description', formData.description);
+            params .append('parent_id', parentselectedNode);
+            const url = "role/"+selectedNode;
+            axiosClient
+                .put(url, params )
+                .then((res) => {
+                    alert(res.data.msg);
+                    if(res.status == 200){
+                        setParentSelectedNode(null);
+                        fetchData();
+                        closeModal();
+                    }     
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        }
+    }
     return(
         <>
         <div className="container mt-5">
@@ -85,13 +114,22 @@ export default function EditRole() {
                             >
                                 ویرایش
                             </button>
-                            
-                            <EditRoleModal 
-                            data={modalData}
-                            showModal={showModal} 
-                            closeModal={closeModal}
-                            handleDelete={handleDelete}
-                            />
+                            {showModal &&(
+                                <EditRoleModal 
+                                    data={data}
+                                    roleData={roleData}
+                                    expandedNodes={expandedNodes}
+                                    setExpandedNodes={setExpandedNodes}
+                                    selectedNode={parentselectedNode}
+                                    setSelectedNode={setParentSelectedNode}
+                                    showModal={showModal} 
+                                    closeModal={closeModal}
+                                    handleDelete={handleDelete}
+                                    handleUpdate={handleUpdate}
+                                    formData={formData}
+                                    setFormData={setFormData}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

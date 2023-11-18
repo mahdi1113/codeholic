@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 
 
-const Tree = ({ data, expandedNodes, setExpandedNodes, selectedNode, setSelectedNode }) => {
+const Tree = ({ 
+  data, 
+  expandedNodes, 
+  setExpandedNodes, 
+  selectedNode, 
+  setSelectedNode 
+}) => {
   const toggleNode = (id) => {
     if (expandedNodes.includes(id)) {
       setExpandedNodes(expandedNodes.filter((nodeId) => nodeId !== id));
