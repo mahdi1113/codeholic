@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import axiosClient from "../../axios";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const EditRoleModal = ({data, showModal, closeModal }) => {
+const EditRoleModal = ({data, showModal, closeModal, handleDelete}) => {
   return (
     <div>
       <Modal show={showModal} onHide={closeModal} size="lg">
@@ -17,7 +15,7 @@ const EditRoleModal = ({data, showModal, closeModal }) => {
           <h5>{data.description}</h5>
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="danger" onClick={closeModal} className=" mt-1 d-block mx-auto">
+        <Button variant="danger" onClick={handleDelete} className=" mt-1 d-block mx-auto">
             حذف
           </Button>
         <Button variant="success" onClick={closeModal} className=" mt-1 d-block mx-auto">
