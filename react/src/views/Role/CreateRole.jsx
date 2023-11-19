@@ -20,36 +20,42 @@ export default function CreateRole() {
           [name]: value,
         }));
       };
-    useEffect(() => {
+    const fetchData = () => {
         axiosClient
             .get("role")
             .then((res) => {
-                console.log(res);
-                setData(res.data);
+            setData(res.data);
             })
             .catch((error) => {
-                console.log(error.response);
+            console.log(error.response);
             });
-    }, []);
-   
+    };
+      useEffect(() => {
+        fetchData();
+      }, []); // Include selectedNode as a dependency
+
     function handleSubmit(e) {
         e.preventDefault();
+
+
         const formDataToSend = new FormData();
         formDataToSend.append('title', formData.title);
         formDataToSend.append('description', formData.description);
-        formDataToSend.append('paret_id', selectedNode);
-        console.log(formData.title);
-        console.log(formData.description);
-        console.log(formDataToSend);
+        formDataToSend.append('parent_id', selectedNode);
         axiosClient
-            .post("role")
+            .post("role",formDataToSend)
             .then((res) => {
                 // console.log(res);
-                setData(res.data);
+                alert(res.data.msg);
+                if(res.status == 200)
+                    fetchData();
+
             })
             .catch((error) => {
-                console.log(error.response);
+                // console.log(error);
+                alert(error.response.data.message);
             });
+
     }
 
     return (

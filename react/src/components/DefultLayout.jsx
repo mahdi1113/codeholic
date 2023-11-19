@@ -196,16 +196,19 @@ import { useSelector, useDispatch } from "react-redux";
 import axiosClient from "../axios";
 import { addToken } from "../redux/loginAction";
 import {useState} from 'react'
+// import router from '../router'
+// import { matchingRoutes } from "../router";
+import router from "../router";
 export default function DefultLayout() {
-    
+
     let navigate = useNavigate();
     // const dispatch = useDispatch();
     // const token = useSelector((state) => state.token);
     const token = localStorage.getItem('token');
-    console.log(token);
-    if (!token) {
-        return <Navigate to="login" />;
-    }
+    // console.log(router);
+    // if (!token) {
+    //     return <Navigate to="login" />;
+    // }
 
     const [isRoleDropdownOpen, setRoleDropdownOpen] = useState(false);
     const handleMouseEnter = () => {
@@ -220,10 +223,8 @@ export default function DefultLayout() {
             // dispatch(addToken(''))
             localStorage.removeItem('token');
             return navigate('/login')
-        }).then(res => {
-            navigate('/Login')
-            console.log(res);
-        }).catch(error => {
+        })
+        .catch(error => {
             alert(JSON.stringify(error))
             console.log(error);
         })
@@ -259,7 +260,7 @@ export default function DefultLayout() {
                             <Link className="nav-item nav-link active" to="/">
                                 خانه
                             </Link>
-                            <Link className="nav-item nav-link" to="/dashboard">
+                            {/* <Link className="nav-item nav-link" to="/dashboard">
                                 داشبورد
                             </Link>
                             <Link
@@ -267,47 +268,54 @@ export default function DefultLayout() {
                                 to="/surveys"
                             >
                                 نظر سنجی ها
-                            </Link>
+                            </Link> */}
                             {/* <Link
                                 className="nav-item nav-link d-flex"
                                 to="/createRole"
                             >
                                 نقش ها
                             </Link> */}
-                            
-                            <li className="nav-item dropdown">
-                            <a className="nav-link" 
-                                href="#" id="navbarDarkDropdownMenuLink" 
-                                role="button" data-bs-toggle="dropdown" 
+
+                            {/* <li className="nav-item dropdown">
+                            <a className="nav-link"
+                                href="#" id="navbarDarkDropdownMenuLink"
+                                role="button" data-bs-toggle="dropdown"
                                 aria-expanded="true"
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
-                            > 
+                            >
                                 نقش ها
                             </a>
                             {isRoleDropdownOpen  && (
-                            <ul className="dropdown-menu dropdown-menu show" 
+                            <ul className="dropdown-menu dropdown-menu show"
                                 aria-labelledby="navbarDarkDropdownMenuLink" data-bs-popper="none"
-                                onMouseEnter={handleMouseEnter} 
+                                onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                                 onClick={handleMouseLeave}
                                 >
                                 <li>
-                                    <Link 
+                                    <Link
                                         className="dropdown-item"
                                         to="/createRole">ایجاد نقش</Link>
                                 </li>
                                 <li>
-                                    <Link 
+                                    <Link
                                         className="dropdown-item"
                                         to="/editRole">ویرایش نقش</Link>
                                 </li>
                             </ul>
-                            
+
                             )}
-                            </li>
-                            
-                            
+                            </li> */}
+
+                            {router.routes[0].children.map((item,index) => {
+                                // console.log(item.path);
+                                return <Link className="nav-item nav-link" to={item.path}>
+                                    {item.name}
+                                </Link>
+                            })}
+
+
                             <Link
                                 className="nav-link"
                                 onClick={(e) => logoutUser(e)}
