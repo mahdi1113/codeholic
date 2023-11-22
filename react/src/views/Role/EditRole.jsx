@@ -7,8 +7,15 @@ export default function EditRole() {
     const [data, setData] = useState([]);
     const [expandedNodes, setExpandedNodes] = useState([]);
     const [selectedNode, setSelectedNode] = useState(null);
+    const [parentSelectedNode, setParentSelectedNode] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [modalData, setModalData] = useState([]);
+    const [roleData, setRoleData] = useState([]);
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        // title: roleData.title,
+        // description: roleData.description ?? "",
+    });
     const fetchData = () => {
         axiosClient
             .get("role")
@@ -24,19 +31,21 @@ export default function EditRole() {
       }, []); // Include selectedNode as a dependency
 
     const openModal = () => {
-        const url = "role/"+selectedNode;
-        axiosClient
-            .get(url)
-            .then((res) => {
-                setModalData(res.data);
-                setShowModal(true);
-            })
-            .catch((error) => {
-                console.log(error.response);
-            });
-        
-        
+        if(selectedNode){
+            const url = "role/"+selectedNode;
+            console.log("AAAAA",parentSelectedNode);
+            axiosClient
+                .get(url)
+                .then((res) => {
+                    setRoleData(res.data);
+                    setParentSelectedNode(res.data.parent_id);
+                    setShowModal(true);
+                })
+                .catch((error) => {
+                });  
+        }
     };
+
     const handleDelete = () => {
         const url = "role/"+selectedNode;
         axiosClient
@@ -44,22 +53,47 @@ export default function EditRole() {
             .then((res) => {
                 alert(res.data.msg);
                 if(res.status == 200){
+                    setSelectedNode(null);
                     fetchData();
                     closeModal();
-                }
-                    
+                }     
             })
             .catch((error) => {
-                console.log(error.response);
             });
-        
-        
     };
-    
-      const closeModal = () => {
+    const closeModal = () => {
         setShowModal(false);
-      };
+    };
       
+    function handleUpdate(e){
+        e.preventDefault();
+
+        if(parentSelectedNode == selectedNode){
+            alert("نقش نمی تواند زیرمجموعه خودش باشد")
+        }
+        else if(parentSelectedNode){
+            const params  = new URLSearchParams();
+            params .append('title', formData.title);
+            params .append('description', formData.description);
+            params .append('parent_id', parentSelectedNode);
+            const url = "role/"+selectedNode;
+            axiosClient
+                .put(url, params )
+                .then((res) => {
+                    alert(res.data.msg);
+                    if(res.status == 200){
+                        setParentSelectedNode(null);
+                        fetchData();
+                        closeModal();
+                    }     
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        }
+    else
+        alert("نقش پدر را انتخاب کنید");
+    }
     return(
         <>
         <div className="container mt-5">
@@ -85,13 +119,22 @@ export default function EditRole() {
                             >
                                 ویرایش
                             </button>
-                            
-                            <EditRoleModal 
-                            data={modalData}
-                            showModal={showModal} 
-                            closeModal={closeModal}
-                            handleDelete={handleDelete}
-                            />
+                            {showModal &&(
+                                <EditRoleModal 
+                                    data={data}
+                                    roleData={roleData}
+                                    expandedNodes={expandedNodes}
+                                    setExpandedNodes={setExpandedNodes}
+                                    parentSelectedNode={parentSelectedNode}
+                                    setParentSelectedNode={setParentSelectedNode}
+                                    showModal={showModal} 
+                                    closeModal={closeModal}
+                                    handleDelete={handleDelete}
+                                    handleUpdate={handleUpdate}
+                                    formData={formData}
+                                    setFormData={setFormData}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
