@@ -84,7 +84,11 @@ class MailController extends Controller
             // $allChildrenIDs حالا شامل تمام idهای فرزندان و فرزندان فرزندان است بدون id والد
             // return $allChildrenIDs;
         }
-        $usersWithDesiredRoles = User::whereIn('role_id', $data)->get();
+        // $usersWithDesiredRoles = User::with('role')->whereIn('role_id', $data)->get();
+
+        $usersWithDesiredRoles = User::with(['role' => function ($query) {
+            $query->select('id', 'title');
+        }])->select('id', 'name','role_id')->whereIn('role_id', $data)->get();
 
         return $usersWithDesiredRoles;
     }
