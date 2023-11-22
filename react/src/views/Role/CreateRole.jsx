@@ -33,7 +33,7 @@ export default function CreateRole() {
       useEffect(() => {
         fetchData();
       }, []); // Include selectedNode as a dependency
-   
+
     function handleSubmit(e) {
         e.preventDefault();
         const formDataToSend = new FormData();
@@ -48,13 +48,11 @@ export default function CreateRole() {
                 alert(res.data.msg);
                 if(res.status == 200)
                     fetchData();
-                    
             })
             .catch((error) => {
                 // console.log(error);
                 alert(error.response.data.message);
             });
-        
     }
 
     return (
