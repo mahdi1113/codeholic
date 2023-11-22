@@ -202,7 +202,7 @@ export default function DefultLayout() {
     // const dispatch = useDispatch();
     // const token = useSelector((state) => state.token);
     const token = localStorage.getItem('token');
-    console.log(token);
+    // console.log(token);
     if (!token) {
         return <Navigate to="login" />;
     }
@@ -306,7 +306,13 @@ export default function DefultLayout() {
                             
                             )}
                             </li>
-                            
+
+                            <Link
+                                className="nav-link"
+                                to="/mails"
+                            >
+                                نامه ها
+                            </Link>
                             
                             <Link
                                 className="nav-link"

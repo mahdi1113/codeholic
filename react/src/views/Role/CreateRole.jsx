@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios";
 import Tree from "./Tree";
-
+import Swal from 'sweetalert2';
 
 
 export default function CreateRole() {
@@ -40,19 +40,18 @@ export default function CreateRole() {
         formDataToSend.append('title', formData.title);
         formDataToSend.append('description', formData.description);
         formDataToSend.append('parent_id', selectedNode);
-        console.log("formDataToSend : ",formDataToSend);
         axiosClient
             .post("role",formDataToSend)
             .then((res) => {
                 // console.log(res);
-                alert(res.data.msg);
+                Swal.fire(res.data.msg);
                 if(res.status == 200)
                     fetchData();
                     
             })
             .catch((error) => {
                 // console.log(error);
-                alert(error.response.data.message);
+                Swal.fire(error.response.data.message);
             });
         
     }

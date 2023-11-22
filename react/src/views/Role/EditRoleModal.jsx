@@ -43,7 +43,7 @@ const EditRoleModal = ({
         <Modal.Body>
         <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>عنوان</Form.Label>
               <Form.Control
                 type="text"
                 name="title"
@@ -56,7 +56,7 @@ const EditRoleModal = ({
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label> Description</Form.Label>
+              <Form.Label> توضیحات</Form.Label>
               <Form.Control 
                 as="textarea" 
                 name="description"

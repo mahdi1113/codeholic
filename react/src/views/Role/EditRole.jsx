@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../../axios";
 import Tree from "./Tree";
 import EditRoleModal from "./EditRoleModal";
+import Swal from 'sweetalert2';
 
 export default function EditRole() {
     const [data, setData] = useState([]);
@@ -33,7 +34,6 @@ export default function EditRole() {
     const openModal = () => {
         if(selectedNode){
             const url = "role/"+selectedNode;
-            console.log("AAAAA",parentSelectedNode);
             axiosClient
                 .get(url)
                 .then((res) => {
@@ -47,19 +47,31 @@ export default function EditRole() {
     };
 
     const handleDelete = () => {
-        const url = "role/"+selectedNode;
-        axiosClient
-            .delete(url)
-            .then((res) => {
-                alert(res.data.msg);
-                if(res.status == 200){
-                    setSelectedNode(null);
-                    fetchData();
-                    closeModal();
-                }     
-            })
-            .catch((error) => {
-            });
+        Swal.fire({
+            text: 'آیا از حذف این نقش مطمئن هستید؟',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'بله',
+            cancelButtonText: 'خیر'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const url = "role/"+selectedNode;
+                axiosClient
+                    .delete(url)
+                    .then((res) => {
+                        Swal.fire(res.data.msg);
+                        if(res.status == 200){
+                            setSelectedNode(null);
+                            fetchData();
+                            closeModal();
+                        }     
+                    })
+                    .catch((error) => {
+                    });
+                    }
+                });
     };
     const closeModal = () => {
         setShowModal(false);
@@ -69,7 +81,7 @@ export default function EditRole() {
         e.preventDefault();
 
         if(parentSelectedNode == selectedNode){
-            alert("نقش نمی تواند زیرمجموعه خودش باشد")
+            Swal.fire("نقش نمی تواند زیرمجموعه خودش باشد")
         }
         else if(parentSelectedNode){
             const params  = new URLSearchParams();
@@ -80,7 +92,7 @@ export default function EditRole() {
             axiosClient
                 .put(url, params )
                 .then((res) => {
-                    alert(res.data.msg);
+                    Swal.fire(res.data.msg);
                     if(res.status == 200){
                         setParentSelectedNode(null);
                         fetchData();
@@ -92,7 +104,7 @@ export default function EditRole() {
                 });
         }
     else
-        alert("نقش پدر را انتخاب کنید");
+        Swal.fire("نقش پدر را انتخاب کنید");
     }
     return(
         <>

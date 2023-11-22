@@ -2,9 +2,9 @@
 import {createBrowserRouter} from 'react-router-dom'
 import App from './App';
 
-import Dashboard from './views/Dashboard';
+import Dashboard from './views/Dashboard/Dashboard';
 import SignUp from './views/Signup';
-import Surveys from './views/Surveys';
+import Surveys from './views/Surveys/Surveys';
 import Login from './views/Login';
 import GuestLayout from './components/GuestLayout';
 import { Children } from 'react';
@@ -12,6 +12,7 @@ import DefultLayout from './components/DefultLayout';
 import Test from './views/Test';
 import CreateRole from './views/Role/CreateRole';
 import EditRole from './views/Role/EditRole';
+import Mails from './views/Mails/Mails';
 import PopupForm from './views/Role/EditRoleModal';
 const router = createBrowserRouter([
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
             {
                 path: 'testrole',
                 element: <PopupForm />
+            },
+            {
+                path: 'mails',
+                element: <Mails />
             }
             
 
