@@ -36,11 +36,11 @@ export default function CreateRole() {
 
     function handleSubmit(e) {
         e.preventDefault();
-
         const formDataToSend = new FormData();
         formDataToSend.append('title', formData.title);
         formDataToSend.append('description', formData.description);
         formDataToSend.append('parent_id', selectedNode);
+        console.log("formDataToSend : ",formDataToSend);
         axiosClient
             .post("role",formDataToSend)
             .then((res) => {
