@@ -41,7 +41,7 @@ const Tree = ({
             >
               {node.title}
             </span>
-              
+
             {node.sub_child && expandedNodes.includes(node.id) && (
               <Tree
                 data={node.sub_child}

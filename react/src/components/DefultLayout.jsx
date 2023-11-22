@@ -196,8 +196,11 @@ import { useSelector, useDispatch } from "react-redux";
 import axiosClient from "../axios";
 import { addToken } from "../redux/loginAction";
 import {useState} from 'react'
+// import router from '../router'
+// import { matchingRoutes } from "../router";
+import router from "../router";
 export default function DefultLayout() {
-    
+
     let navigate = useNavigate();
     // const dispatch = useDispatch();
     // const token = useSelector((state) => state.token);
@@ -206,6 +209,10 @@ export default function DefultLayout() {
     if (!token) {
         return <Navigate to="login" />;
     }
+    // console.log(router);
+    // if (!token) {
+    //     return <Navigate to="login" />;
+    // }
 
     const [isRoleDropdownOpen, setRoleDropdownOpen] = useState(false);
     const handleMouseEnter = () => {
@@ -220,10 +227,8 @@ export default function DefultLayout() {
             // dispatch(addToken(''))
             localStorage.removeItem('token');
             return navigate('/login')
-        }).then(res => {
-            navigate('/Login')
-            console.log(res);
-        }).catch(error => {
+        })
+        .catch(error => {
             alert(JSON.stringify(error))
             console.log(error);
         })
@@ -274,36 +279,36 @@ export default function DefultLayout() {
                             >
                                 نقش ها
                             </Link> */}
-                            
-                            <li className="nav-item dropdown">
-                            <a className="nav-link" 
-                                href="#" id="navbarDarkDropdownMenuLink" 
-                                role="button" data-bs-toggle="dropdown" 
+
+                             <li className="nav-item dropdown">
+                            <a className="nav-link"
+                                href="#" id="navbarDarkDropdownMenuLink"
+                                role="button" data-bs-toggle="dropdown"
                                 aria-expanded="true"
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
-                            > 
+                            >
                                 نقش ها
                             </a>
                             {isRoleDropdownOpen  && (
-                            <ul className="dropdown-menu dropdown-menu show" 
+                            <ul className="dropdown-menu dropdown-menu show"
                                 aria-labelledby="navbarDarkDropdownMenuLink" data-bs-popper="none"
-                                onMouseEnter={handleMouseEnter} 
+                                onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                                 onClick={handleMouseLeave}
                                 >
                                 <li>
-                                    <Link 
+                                    <Link
                                         className="dropdown-item"
                                         to="/createRole">ایجاد نقش</Link>
                                 </li>
                                 <li>
-                                    <Link 
+                                    <Link
                                         className="dropdown-item"
                                         to="/editRole">ویرایش نقش</Link>
                                 </li>
                             </ul>
-                            
+
                             )}
                             </li>
 

@@ -1,7 +1,5 @@
-
 import {createBrowserRouter} from 'react-router-dom'
 import App from './App';
-
 import Dashboard from './views/Dashboard/Dashboard';
 import SignUp from './views/Signup';
 import Surveys from './views/Surveys/Surveys';
@@ -14,63 +12,66 @@ import CreateRole from './views/Role/CreateRole';
 import EditRole from './views/Role/EditRole';
 import Mails from './views/Mails/Mails';
 import PopupForm from './views/Role/EditRoleModal';
-const router = createBrowserRouter([
 
+// const tr = ['dashboard','surveys','signUp'];
+
+const route1 = [
     {
-        path: '/',
-        element: <DefultLayout />,
-        children: [
-            {
-                path: 'dashboard',
-                element: <Dashboard />
-            },
-
-            {
-                path: 'surveys',
-                element: <Surveys />
-            },
-            {
-                path: 'test',
-                element: <Test />
-            },
-            {
-                path: 'createRole',
-                element: <CreateRole />
-            },
-            {
-                path: 'editRole',
-                element: <EditRole />
-            },
-            {
-                path: 'testrole',
-                element: <PopupForm />
-            },
-            {
-                path: 'mails',
-                element: <Mails />
-            }
-            
-
-        ]
+        path: 'Dashboard',
+        element: <Dashboard />
     },
-
     {
-        path: '/',
-        element: <GuestLayout />,
-        children: [
+        path: 'surveys',
+        element: <Surveys />
+    },
+    {
+        path: 'test',
+        element: <Test />
+    },
+    {
+        path: 'createRole',
+        element: <CreateRole />
+    },
+    {
+        path: 'editRole',
+        element: <EditRole />
+    },
+    {
+        path: 'mails',
+        element: <Mails />
+    },
+    {
+        path: 'testrole',
+        element: <PopupForm />
+    },
+    {
+        path: 'signUp',
+        element: <SignUp />
+    },
+]
 
-            {
-                path: 'signUp',
-                element: <SignUp />
-            },
+const router2 = [
+    {
+        path: 'Login',
+        element: <Login />
+    },
+]
 
-            {
-                path: 'Login',
-                element: <Login />
-            },
-            
-        ]
-    }
-]);
+// const matchingRoutes = route1.filter(route => tr.includes(route.path));
+
+const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <DefultLayout />,
+      children: route1,
+    },
+    {
+      path: '/',
+      element: <GuestLayout />,
+      children: router2,
+    },
+  ]);
+
+
 
 export default router;

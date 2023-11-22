@@ -33,7 +33,7 @@ export default function CreateRole() {
       useEffect(() => {
         fetchData();
       }, []); // Include selectedNode as a dependency
-   
+
     function handleSubmit(e) {
         e.preventDefault();
         const formDataToSend = new FormData();
@@ -47,13 +47,11 @@ export default function CreateRole() {
                 Swal.fire(res.data.msg);
                 if(res.status == 200)
                     fetchData();
-                    
             })
             .catch((error) => {
                 // console.log(error);
                 Swal.fire(error.response.data.message);
             });
-        
     }
 
     return (
