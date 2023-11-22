@@ -26,4 +26,16 @@ class Role extends Model
     {
         return $this->child()->with('subChild');
     }
+
+    public function allChildrenIDs()
+    {
+        $childrenIDs = $this->child()->pluck('id')->toArray();
+
+        foreach ($this->child as $child) {
+            $childrenIDs = array_merge($childrenIDs, $child->allChildrenIDs());
+        }
+
+        return $childrenIDs;
+
+    }
 }
