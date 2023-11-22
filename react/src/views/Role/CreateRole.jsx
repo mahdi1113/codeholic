@@ -37,7 +37,6 @@ export default function CreateRole() {
     function handleSubmit(e) {
         e.preventDefault();
 
-
         const formDataToSend = new FormData();
         formDataToSend.append('title', formData.title);
         formDataToSend.append('description', formData.description);
@@ -49,13 +48,11 @@ export default function CreateRole() {
                 alert(res.data.msg);
                 if(res.status == 200)
                     fetchData();
-
             })
             .catch((error) => {
                 // console.log(error);
                 alert(error.response.data.message);
             });
-
     }
 
     return (

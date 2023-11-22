@@ -260,7 +260,7 @@ export default function DefultLayout() {
                             <Link className="nav-item nav-link active" to="/">
                                 خانه
                             </Link>
-                            {/* <Link className="nav-item nav-link" to="/dashboard">
+                            <Link className="nav-item nav-link" to="/dashboard">
                                 داشبورد
                             </Link>
                             <Link
@@ -268,7 +268,7 @@ export default function DefultLayout() {
                                 to="/surveys"
                             >
                                 نظر سنجی ها
-                            </Link> */}
+                            </Link>
                             {/* <Link
                                 className="nav-item nav-link d-flex"
                                 to="/createRole"
@@ -276,7 +276,7 @@ export default function DefultLayout() {
                                 نقش ها
                             </Link> */}
 
-                            {/* <li className="nav-item dropdown">
+                             <li className="nav-item dropdown">
                             <a className="nav-link"
                                 href="#" id="navbarDarkDropdownMenuLink"
                                 role="button" data-bs-toggle="dropdown"
@@ -306,14 +306,14 @@ export default function DefultLayout() {
                             </ul>
 
                             )}
-                            </li> */}
+                            </li>
 
-                            {router.routes[0].children.map((item,index) => {
+                            {/* {router.routes[0].children.map((item,index) => {
                                 // console.log(item.path);
                                 return <Link className="nav-item nav-link" to={item.path}>
                                     {item.name}
                                 </Link>
-                            })}
+                            })} */}
 
 
                             <Link

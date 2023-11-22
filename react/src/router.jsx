@@ -12,7 +12,7 @@ import CreateRole from './views/Role/CreateRole';
 import EditRole from './views/Role/EditRole';
 import PopupForm from './views/Role/EditRoleModal';
 
-const tr = ['dashboard','surveys','signUp'];
+// const tr = ['dashboard','surveys','signUp'];
 
 const route1 = [
     {
@@ -24,10 +24,10 @@ const route1 = [
         path: 'surveys',
         element: <Surveys />
     },
-    // {
-    //     path: 'test',
-    //     element: <Test />
-    // },
+    {
+        path: 'test',
+        element: <Test />
+    },
     {
         path: 'createRole',
         element: <CreateRole />
@@ -53,13 +53,13 @@ const router2 = [
     },
 ]
 
-const matchingRoutes = route1.filter(route => tr.includes(route.path));
+// const matchingRoutes = route1.filter(route => tr.includes(route.path));
 
 const router = createBrowserRouter([
     {
       path: '/',
       element: <DefultLayout />,
-      children: matchingRoutes,
+      children: route1,
     },
     {
       path: '/',
