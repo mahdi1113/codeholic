@@ -25,6 +25,8 @@ class CreateMailController extends FormRequest
             "title" => 'required',
             "description" => 'required',
             'receiv_id'=> 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg',
+            'file' => 'nullable|mimes:pdf',
         ];
     }
     public function attributes()
