@@ -4,41 +4,33 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from "react";
 function ShowMailModal({
-    showCreateModal,
-    closeCreateModal,
+  mailModalData,
+  showMailModal,
+  closeMailModal,
 }){
     return ( 
         <div>
-      <Modal show={showCreateModal} onHide={closeCreateModal} size="lg">
+      <Modal show={showMailModal} onHide={closeMailModal} size="lg">
         <Modal.Header closeButton >
           {/* <Modal.Title >ویرایش نقش</Modal.Title> */}
         </Modal.Header>
         <Modal.Body>
         <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>عنوان</Form.Label>
-              <Form.Control
-                type="text"
-                name="title"
-                // onChange={handleChange}
-                autoFocus
-              />
+              عنوان
+              <div className="p-3 border">{mailModalData.title}</div>
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label> متن</Form.Label>
-              <Form.Control 
-                as="textarea" 
-                name="description"
-                rows={3}
-                />
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              متن
+              <div className="p-2 border">{mailModalData.description}</div>
             </Form.Group>
+             
+              
+              
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={closeCreateModal} className=" mt-1 d-block mx-auto">
+          <Button variant="secondary" onClick={closeMailModal} className=" mt-1 d-block mx-auto">
             بستن
           </Button>
         </Modal.Footer>

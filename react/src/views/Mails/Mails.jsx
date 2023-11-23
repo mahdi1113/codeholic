@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import Spinner from 'react-bootstrap/Spinner';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import Inbox from './inbox';
 import axiosClient from "../../axios";
 function Mails() {
@@ -79,7 +81,9 @@ useEffect(() => {
                     
                     <Tab eventKey="recive" title="نامه های دریافتی">
                       {loading ? (
-                        <p>Loading...</p>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                          <Spinner animation="border" />
+                        </div>
                       ) : (
                         <Inbox {...inboxProps}/>
                       )}
@@ -87,7 +91,9 @@ useEffect(() => {
                     
                     <Tab eventKey="send" title="نامه های ارسالی">
                       {loading ? (
-                        <p>Loading...</p>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                          <Spinner animation="border" />
+                        </div>
                       ) : (
                         <Inbox {...inboxProps}/>
                       )}

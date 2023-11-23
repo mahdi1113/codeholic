@@ -23,6 +23,10 @@ function Inbox({
     const [allOrNotseen, setAllOrNotseen] = useState(1);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showMailModal, setShowMailModal] = useState(false);
+    const [mailModalData, setMailModalData] = useState({
+        title: '',
+        description: '',
+      });
     const handlePrePage = () =>{
         console.log(data);
         if (page > 1)
@@ -52,8 +56,10 @@ function Inbox({
     const closeCreateModal = () => {
         setShowCreateModal(false);
     };
-    const handleTitleClick = (id, tab) => {
-
+    const handleTitleClick = (id, title, description, tab) => {
+        setMailModalData({'title':title, 'description':description})
+        openMailModal()
+        console.log(showMailModal);
         if(tab == 'recive'){
             axiosClient.post('/mail/updateStatusMail/'+ id).then(res => {
                 fetchData()
@@ -97,7 +103,7 @@ function Inbox({
       {data && (data.map((node) => (
         allOrNotseen ? (
             <tr key={node.id} className={(node.status &&  tab === 'recive') || tab === 'send'? 'table-secondary' : ''}>
-                <td onClick={() => handleTitleClick(node.id, tab)}><a href="#" className="link-dark">{node.title}</a></td>
+                <td onClick={() => handleTitleClick(node.id,node.title, node.description, tab)}><a href="#" className="link-dark">{node.title}</a></td>
                 <td>{node.description.substring(0, Math.min(10, node.title.length))}</td>
             </tr>
         ) : (
@@ -109,12 +115,7 @@ function Inbox({
         )
         )
         )))}
-        {showMailModal &&(
-            <ShowMailModal
-                openMailModal={showMailModal} 
-                closeMailModal={closeMailModal}
-            />
-        )}
+        
       </tbody>
     </Table>
     <div className="col-3 d-flex justify-content-center">
@@ -125,6 +126,13 @@ function Inbox({
                 closeCreateModal={closeCreateModal}
             />
         )}
+        {showMailModal &&(
+            <ShowMailModal
+            mailModalData={mailModalData}
+            showMailModal={showMailModal} 
+            closeMailModal={closeMailModal}
+            />
+        )}
     </div>
     <div className="col-12 d-flex justify-content-center">
         <ButtonGroup aria-label="Basic example " style={{marginBottom:"3px"}}>
@@ -132,6 +140,7 @@ function Inbox({
             <Button variant="secondary" onClick={handlePrePage} active>قبلی</Button>
         </ButtonGroup>
     </div>
+    
     </>
     );
 }
