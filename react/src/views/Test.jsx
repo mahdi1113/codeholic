@@ -247,26 +247,40 @@
 // }
 // export default Test;
 
-import React, { useEffect, useState } from "react";
-import Test2 from "./Test2";
-import axiosClient from "../axios"
-import './tree.css'
+// import React, { useEffect, useState } from "react";
+// import Test2 from "./Test2";
+// import axiosClient from "../axios"
+// import './tree.css'
+// export default function Test() {
+
+//     const [data , setData] = useState([]);
+//         useEffect(() => {
+//             axiosClient.post('role').then(res => {
+//                 console.log(res);
+//                 setData(res.data);
+//             }).catch(error =>{
+//                 console.log(error.response);
+//             })
+//         },[])
+
+//     const [state, setstate] = useState([]);
+//     return (
+//         <>
+//             <div className="tree">{Test2(data)}</div>
+//         </>
+//     );
+// }
+
+import axios from 'axios'
+import React from 'react'
+import axiosClient from '../axios'
+axiosClient.post('test').then(res => {
+    console.log(res);
+}).catch(error => {
+    console.log(error.response);
+})
 export default function Test() {
-
-    const [data , setData] = useState([]);
-        useEffect(() => {
-            axiosClient.post('role').then(res => {
-                console.log(res);
-                setData(res.data);
-            }).catch(error =>{
-                console.log(error.response);
-            })
-        },[])
-
-    const [state, setstate] = useState([]);
-    return (
-        <>
-            <div className="tree">{Test2(data)}</div>
-        </>
-    );
+  return (
+    <div>Test</div>
+  )
 }

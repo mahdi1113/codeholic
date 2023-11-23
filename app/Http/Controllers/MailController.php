@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateMailController;
 use App\Models\Mail;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateMailController;
 
 class MailController extends Controller
 {
@@ -13,6 +14,28 @@ class MailController extends Controller
     {
         $mail = Mail::where('user_id',$request->user_id)->paginate(5);
         return response()->json(['mail' => $mail]);
+        //////////////////////////////////////////////////////////////////////////////////////
+        // $parentRoleID = 1; // مقدار مورد نظر برای role_id
+
+        // $parentRole = Role::find($parentRoleID);
+
+        // $parent_id = $parentRole->parent_id;
+
+        // if ($parentRole) {
+        //     $allChildrenIDs = $parentRole->allChildrenIDs();
+        //     $allCollege = Role::where('parent_id',$parent_id)->where('id', '!=' , $parentRoleID)->pluck('id')
+        //     ->toArray();
+        //     $parent = Role::where('id',$parent_id)->pluck('id')
+        //     ->toArray();
+        //     $data = array_merge($allChildrenIDs,$allCollege,$parent);
+        //     sort($data);
+        //     // $allChildrenIDs حالا شامل تمام idهای فرزندان و فرزندان فرزندان است بدون id والد
+        //     // return $allChildrenIDs;
+        // }
+        // $usersWithDesiredRoles = User::whereIn('role_id', $data)->get();
+
+        // return $usersWithDesiredRoles;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     public function receivedMails(Request $request)
@@ -20,18 +43,18 @@ class MailController extends Controller
         $mail = Mail::where('receiv_id',$request->receiv_id)->paginate(5);
         return response()->json(['mail' => $mail]);
     }
-    public function store(CreateMailController $request,User $user)
+    public function store(CreateMailController $request, User $user)
     {
         $user->mails()->create([
             'title' => $request->title,
             'description' => $request->description,
             'receiv_id' => $request->receiv_id,
         ]);
-        return response()->json(['msg' => 'نامه با موفقیت ارسال شد'],200);
+        return response()->json(['msg' => 'نامه با موفقیت ارسال شد'], 200);
     }
     public function show(Mail $mail)
     {
-        return response()->json(['mail'=> $mail]);
+        return response()->json(['mail' => $mail]);
     }
     public function updateStatus(Mail $mail)
     {
@@ -39,5 +62,34 @@ class MailController extends Controller
             'status' => 1,
         ]);
         return response()->json(['msg' => 'وضعیت نامه آپدیت شد']);
+    }
+
+    public function allowedPersons($id)
+    {
+
+        $parentRoleID = $id; // مقدار مورد نظر برای role_id
+
+        $parentRole = Role::find($parentRoleID);
+
+        $parent_id = $parentRole->parent_id;
+
+        if ($parentRole) {
+            $allChildrenIDs = $parentRole->allChildrenIDs();
+            $allCollege = Role::where('parent_id',$parent_id)->where('id', '!=' , $parentRoleID)->pluck('id')
+            ->toArray();
+            $parent = Role::where('id',$parent_id)->pluck('id')
+            ->toArray();
+            $data = array_merge($allChildrenIDs,$allCollege,$parent);
+            sort($data);
+            // $allChildrenIDs حالا شامل تمام idهای فرزندان و فرزندان فرزندان است بدون id والد
+            // return $allChildrenIDs;
+        }
+        // $usersWithDesiredRoles = User::with('role')->whereIn('role_id', $data)->get();
+
+        $usersWithDesiredRoles = User::with(['role' => function ($query) {
+            $query->select('id', 'title');
+        }])->select('id', 'name','role_id')->whereIn('role_id', $data)->get();
+
+        return $usersWithDesiredRoles;
     }
 }
