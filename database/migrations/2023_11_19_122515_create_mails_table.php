@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->tinyInteger('status')->default(0);
+            $table->string('image')->nullable();
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }

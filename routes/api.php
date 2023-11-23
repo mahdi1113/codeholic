@@ -33,13 +33,10 @@ Route::post('login', [AuthController::class, 'login']);
 Route::apiResource('role', RoleController::class);
 //mail
 Route::post('mail/store/{user}',[MailController::class, 'store']);
+Route::post()
 Route::post('mail/sentLetters',[MailController::class, 'sentLetters']);
-Route::post('mail/receivedMails',[MailController::class, 'receivedMails']);
+Route::post('mail/receivedMails/{id}',[MailController::class, 'AllreceivedMails']);
+Route::post('mail/receivedMailsNotViewed/{id}',[MailController::class, 'receivedMailsNotViewed']);
 Route::post('mail/updateStatusMail/{mail}',[MailController::class, 'updateStatus']);
 Route::post('mail/show/{mail}',[MailController::class,'show']);
 Route::post('mail/allowedPersons/{id}',[MailController::class, 'allowedPersons']);
-
-// Route::post('users', [UserController::class, 'apiIndex']);
-// Route::apiResource('role',RoleController::class);
-// Route::post('role',[RoleController::class ,'index']);
-// Route::apiResource('mail', MailController::class);
