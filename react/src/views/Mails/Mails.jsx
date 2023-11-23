@@ -10,35 +10,35 @@ function Mails() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [allOrNotseen, setAllOrNotseen] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const fetchData = async  () => {
     let parameters = {};
-    console.log('tab :: ',tab);
+    let user_id=2;
+    let url='';
     if (tab == 'recive') {
-      
-
+        if(allOrNotseen)
+          url = '/mail/receivedMails/'+user_id;
+        else
+          url = '/mail/receivedMailsNotViewed/'+user_id;
         parameters = {
-        url: '/mail/receivedMails',
+        url: url,
         data: {
-            receiv_id: 1,
-            page: page,
-        },
-        };
+          page: page,
+        }
+        }    
     } else {
         // Set parameters for sent letters
         parameters = {
         url: '/mail/sentLetters',
         data: {
-            user_id: 1,
+            user_id: user_id,
             page: page,
         },
         };
     }
     axiosClient.post(parameters.url, parameters.data).then(res => {
-        console.log("tab ::",tab);
-        console.log("data ::",res.data.mail.data);
-        console.log("url ::",parameters.url);
         setData(res.data.mail.data);
         setMaxPage(res.data.mail.last_page)
         setLoading(false)
@@ -49,11 +49,17 @@ function Mails() {
 }
 useEffect(() => {
   fetchData();
-  }, [tab, page]);
+  }, [tab,allOrNotseen,page]);
   
   const handleTab = (key) => {
-    setLoading(true);
-    setTab(key)
+    if(key != tab){
+      setLoading(true);
+      setPage(1);
+      setTab(key);
+
+    }
+      
+      
     
   }
   const inboxProps = {
@@ -64,6 +70,10 @@ useEffect(() => {
     maxPage,
     setMaxPage,
     fetchData,
+    allOrNotseen,
+    setAllOrNotseen,
+    loading,
+    setLoading
   };
 
     return (

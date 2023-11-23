@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import CreateMailModal from './CreateMailModal';
 import ShowMailModal from './ShowMailModal';
 import axiosClient from "../../axios";
+import Swal from 'sweetalert2';
 
 function Inbox({
     tab,
@@ -17,31 +18,39 @@ function Inbox({
     setPage,
     maxPage,
     setMaxPage,
-    fetchData
+    fetchData,
+    allOrNotseen,
+    setAllOrNotseen,
+    loading,
+    setLoading
 }) {
     
-    const [allOrNotseen, setAllOrNotseen] = useState(1);
+    const user_id = 2;
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showMailModal, setShowMailModal] = useState(false);
     const [mailModalData, setMailModalData] = useState({
         title: '',
         description: '',
       });
+    const [createModalData, setCreateModalData] = useState({
+        'user_id':user_id
+    });
+    const [allowedPersons, setAllowedPersons] = useState([]);
     const handlePrePage = () =>{
         console.log(data);
         if (page > 1)
             setPage(page-1);
-        console.log(page);
     }
     const handleNextPage = () =>{
         if (page < maxPage)
             setPage(page+1);
-        console.log(page);
     }
     const handleAllMails = () =>{
+        setLoading(true);
         setAllOrNotseen(1);
     }
     const handleUnreadMails = () =>{
+        setLoading(true);
         setAllOrNotseen(0);
     }
     const openMailModal = () => {
@@ -51,15 +60,23 @@ function Inbox({
         setShowMailModal(false);
     };
     const openCreateModal = () => {
-        setShowCreateModal(true);
+        axiosClient.post('/mail/allowedPersons/'+ user_id).then(res => {
+            setAllowedPersons(res.data);
+            setShowCreateModal(true);
+        })
+        .catch((error) => {
+            console.log(error.response);
+            });  
+        
+
     };
     const closeCreateModal = () => {
         setShowCreateModal(false);
+        setCreateModalData({'user_id':user_id});
     };
     const handleTitleClick = (id, title, description, tab) => {
         setMailModalData({'title':title, 'description':description})
         openMailModal()
-        console.log(showMailModal);
         if(tab == 'recive'){
             axiosClient.post('/mail/updateStatusMail/'+ id).then(res => {
                 fetchData()
@@ -69,6 +86,24 @@ function Inbox({
                 });  
         }
     }
+    const sendMail = () => {
+        axiosClient.post('mail/store/'+ user_id, createModalData).then(res => {
+            fetchData();
+            Swal.fire({
+                icon: 'success',
+                title: 'success',
+                text: res.data.msg,
+              }).then(() => closeCreateModal()); 
+        })
+        .catch((error) => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.response.data.message,
+              });
+            });  
+        
+    }
     return ( 
     <>
     <ButtonToolbar
@@ -76,12 +111,12 @@ function Inbox({
         aria-label="Toolbar with Button groups"
       >
         <InputGroup>
-          <Button id="btnGroupAddon2">جستجو</Button>
+          <Button id="btnGroupAddonuser_id">جستجو</Button>
           <Form.Control
             type="text"
             // placeholder="Input group example"
             aria-label="Input group example"
-            aria-describedby="btnGroupAddon2"
+            aria-describedby="btnGroupAddonuser_id"
           />
         </InputGroup>
         {tab != "send" && (
@@ -94,7 +129,7 @@ function Inbox({
     <br/>
     <Table responsive className='text-center'>
       <thead>
-        <tr className='col-12'>
+        <tr className='col-1user_id'>
           <th className='text-center col-3 font-weight-bold'>عنوان</th>
           <th className='text-center col-9 font-weight-bold'>متن پیام</th>
         </tr>
@@ -102,15 +137,15 @@ function Inbox({
       <tbody>
       {data && (data.map((node) => (
         allOrNotseen ? (
-            <tr key={node.id} className={(node.status &&  tab === 'recive') || tab === 'send'? 'table-secondary' : ''}>
+            <tr key={node.id} className={(node.status &&  tab === 'recive' || tab === 'send')? 'table-secondary' : ''}>
                 <td onClick={() => handleTitleClick(node.id,node.title, node.description, tab)}><a href="#" className="link-dark">{node.title}</a></td>
-                <td>{node.description.substring(0, Math.min(10, node.title.length))}</td>
+                <td>{node.description.substring(0, Math.min(20, node.description.length))}</td>
             </tr>
         ) : (
         node.status === 0 && (
-            <tr key={node.id}>
-                <td>{node.title}</td>
-                <td>{node.description.substring(0, Math.min(10, node.title.length))}</td>
+            <tr key={node.id} className={tab === 'send' ? 'table-secondary' : ''}>
+                <td onClick={() => handleTitleClick(node.id,node.title, node.description, tab)}><a href="#" className="link-dark">{node.title}</a></td>
+                <td>{node.description.substring(0, Math.min(20, node.description.length))}</td>
             </tr>
         )
         )
@@ -124,6 +159,9 @@ function Inbox({
             <CreateMailModal
                 showCreateModal={showCreateModal} 
                 closeCreateModal={closeCreateModal}
+                data={allowedPersons}
+                sendMail={sendMail}
+                setCreateModalData={setCreateModalData}
             />
         )}
         {showMailModal &&(
@@ -134,9 +172,10 @@ function Inbox({
             />
         )}
     </div>
-    <div className="col-12 d-flex justify-content-center">
+    <div className="col-1user_id d-flex justify-content-center">
         <ButtonGroup aria-label="Basic example " style={{marginBottom:"3px"}}>
             <Button variant="secondary" onClick={handleNextPage} active>بعدی</Button>
+            <Button variant="secondary" active>{page}</Button>
             <Button variant="secondary" onClick={handlePrePage} active>قبلی</Button>
         </ButtonGroup>
     </div>

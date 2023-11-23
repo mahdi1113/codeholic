@@ -24,8 +24,6 @@ function ShowMailModal({
               متن
               <div className="p-2 border">{mailModalData.description}</div>
             </Form.Group>
-             
-              
               
           </Form>
         </Modal.Body>
