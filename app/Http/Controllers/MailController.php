@@ -11,13 +11,13 @@ class MailController extends Controller
 {
     public function sentLetters(Request $request)
     {
-        $mail = Mail::where('user_id',$request->user_id)->get();
+        $mail = Mail::where('user_id',$request->user_id)->paginate(5);
         return response()->json(['mail' => $mail]);
     }
 
     public function receivedMails(Request $request)
     {
-        $mail = Mail::where('receiv_id',$request->receiv_id)->get();
+        $mail = Mail::where('receiv_id',$request->receiv_id)->paginate(5);
         return response()->json(['mail' => $mail]);
     }
     public function store(CreateMailController $request,User $user)

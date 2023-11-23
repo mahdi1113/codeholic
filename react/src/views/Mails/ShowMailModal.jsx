@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from "react";
-function CreateMailModal({
+function ShowMailModal({
     showCreateModal,
     closeCreateModal,
 }){
@@ -20,7 +20,6 @@ function CreateMailModal({
               <Form.Control
                 type="text"
                 name="title"
-            
                 // onChange={handleChange}
                 autoFocus
               />
@@ -34,17 +33,11 @@ function CreateMailModal({
                 as="textarea" 
                 name="description"
                 rows={3}
-                // value={formData.description}
-                // onChange={handleChange}
                 />
             </Form.Group>
           </Form>
-          ارسال به 
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="success"  className=" mt-1 d-block mx-auto">
-            ارسال
-          </Button>
           <Button variant="secondary" onClick={closeCreateModal} className=" mt-1 d-block mx-auto">
             بستن
           </Button>
@@ -55,4 +48,4 @@ function CreateMailModal({
      );
 }
 
-export default CreateMailModal;
+export default ShowMailModal;

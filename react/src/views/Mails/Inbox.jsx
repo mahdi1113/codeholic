@@ -5,15 +5,26 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Table from 'react-bootstrap/Table';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreateMailModal from './CreateMailModal';
-function Inbox({tab}) {
-    const [page, setPage] = useState(1);
-    const [maxPage, setMaxPage] = useState(1);
-    const [button, setButton] = useState(1);
-    const [maxShowPerPage, setMaxShowPerPage] = useState(10);
-    const [showModal, setShowModal] = useState(false);
+import ShowMailModal from './ShowMailModal';
+import axiosClient from "../../axios";
+
+function Inbox({
+    tab,
+    data,
+    page,
+    setPage,
+    maxPage,
+    setMaxPage,
+    fetchData
+}) {
+    
+    const [allOrNotseen, setAllOrNotseen] = useState(1);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showMailModal, setShowMailModal] = useState(false);
     const handlePrePage = () =>{
+        console.log(data);
         if (page > 1)
             setPage(page-1);
         console.log(page);
@@ -24,17 +35,34 @@ function Inbox({tab}) {
         console.log(page);
     }
     const handleAllMails = () =>{
-        setButton(1);
+        setAllOrNotseen(1);
     }
     const handleUnreadMails = () =>{
-        setButton(0);
+        setAllOrNotseen(0);
     }
-    const openModal = () => {
-        setShowModal(true);
+    const openMailModal = () => {
+        setShowMailModal(true);
     };
-    const closeModal = () => {
-        setShowModal(false);
+    const closeMailModal = () => {
+        setShowMailModal(false);
     };
+    const openCreateModal = () => {
+        setShowCreateModal(true);
+    };
+    const closeCreateModal = () => {
+        setShowCreateModal(false);
+    };
+    const handleTitleClick = (id, tab) => {
+
+        if(tab == 'recive'){
+            axiosClient.post('/mail/updateStatusMail/'+ id).then(res => {
+                fetchData()
+            })
+            .catch((error) => {
+                console.log(error.response);
+                });  
+        }
+    }
     return ( 
     <>
     <ButtonToolbar
@@ -52,8 +80,8 @@ function Inbox({tab}) {
         </InputGroup>
         {tab != "send" && (
         <ButtonGroup aria-label="First group" className='col-md-5'>
-          <Button variant={button ? ("primary") : ("secondary")} onClick={handleAllMails}>همه نامه ها</Button>
-          <Button variant={!button ? ("primary") : ("secondary")} onClick={handleUnreadMails}>مشاهده نشده ها</Button>
+          <Button variant={allOrNotseen ? ("primary") : ("secondary")} onClick={handleAllMails}>همه نامه ها</Button>
+          <Button variant={!allOrNotseen ? ("primary") : ("secondary")} onClick={handleUnreadMails}>مشاهده نشده ها</Button>
         </ButtonGroup>
         )}
     </ButtonToolbar>
@@ -66,27 +94,35 @@ function Inbox({tab}) {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>@twitter</td>
-        </tr>
+      {data && (data.map((node) => (
+        allOrNotseen ? (
+            <tr key={node.id} className={(node.status &&  tab === 'recive') || tab === 'send'? 'table-secondary' : ''}>
+                <td onClick={() => handleTitleClick(node.id, tab)}><a href="#" className="link-dark">{node.title}</a></td>
+                <td>{node.description.substring(0, Math.min(10, node.title.length))}</td>
+            </tr>
+        ) : (
+        node.status === 0 && (
+            <tr key={node.id}>
+                <td>{node.title}</td>
+                <td>{node.description.substring(0, Math.min(10, node.title.length))}</td>
+            </tr>
+        )
+        )
+        )))}
+        {showMailModal &&(
+            <ShowMailModal
+                openMailModal={showMailModal} 
+                closeMailModal={closeMailModal}
+            />
+        )}
       </tbody>
     </Table>
     <div className="col-3 d-flex justify-content-center">
-        <Button variant="success" onClick={openModal} active>ایجاد نامه</Button>
-        {showModal &&(
+        <Button variant="success" onClick={openCreateModal} active>ایجاد نامه</Button>
+        {showCreateModal &&(
             <CreateMailModal
-                showModal={showModal} 
-                closeModal={closeModal}
-            
+                showCreateModal={showCreateModal} 
+                closeCreateModal={closeCreateModal}
             />
         )}
     </div>
