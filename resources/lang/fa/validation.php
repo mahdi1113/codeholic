@@ -178,7 +178,8 @@ return [
         "time" => "زمان",
         "available" => "موجود",
         "notavailable" => "موجود نیست",
-        "size" => "اندازه"
+        "size" => "اندازه",
+        "role_id" => "نقش"
     ],
 
 ];

@@ -27,7 +27,7 @@ export default function CreateRole() {
             setData(res.data);
             })
             .catch((error) => {
-            console.log(error.response);
+                Swal.fire(error.response.data.message);
             });
     };
       useEffect(() => {
@@ -43,14 +43,23 @@ export default function CreateRole() {
         axiosClient
             .post("role",formDataToSend)
             .then((res) => {
-                // console.log(res);
-                Swal.fire(res.data.msg);
                 if(res.status == 200)
                     fetchData();
+                Swal.fire(res.data.msg);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: res.data.msg,
+                });
             })
             .catch((error) => {
-                // console.log(error);
-                Swal.fire(error.response.data.message);
+                console.log(error.response);
+                if(error.response.status == 422)
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Warning',
+                        text: error.response.data.message || 'There was an error processing your request.',
+                    });
             });
     }
 
@@ -103,12 +112,6 @@ export default function CreateRole() {
                                         >
                                             پدر این نقش را انتخاب کنید:
                                         </label>
-                                        {/* <select
-                                            className="form-control"
-                                            id="exampleSelect"
-                                        >
-                                            <Test3 data={data} />
-                                        </select> */}
 
                                         <Tree
                                         data={data}
@@ -118,8 +121,6 @@ export default function CreateRole() {
                                         setSelectedNode={setSelectedNode}
                                         />
 
-
-                                        {/* /////////////////////////////////// */}
                                     </div>
                                     <button
                                         type="submit"
