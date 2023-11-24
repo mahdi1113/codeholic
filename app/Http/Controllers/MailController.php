@@ -10,7 +10,7 @@ use App\Http\Requests\CreateMailController;
 
 class MailController extends Controller
 {
-    public function sentLetters(Request $request)
+    public function sendMail(Request $request)
     {
         $mail = Mail::where('user_id',$request->user_id)->paginate(5);
         return response()->json(['mail' => $mail]);
@@ -38,15 +38,15 @@ class MailController extends Controller
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
-    public function AllreceivedMails($id)
+    public function AllreciveMails($id)
     {
-        $mail = Mail::where('receiv_id', $id)->paginate(5);
+        $mail = Mail::where('recive_id', $id)->get();
         return response()->json(['mail' => $mail]);
     }
 
-    public function receivedMailsNotViewed($id)
+    public function reciveMailsNotViewed($id)
     {
-        $mail = Mail::where('receiv_id', $id)->where('status',0)->paginate(5);
+        $mail = Mail::where('recive_id', $id)->where('status',0)->paginate(5);
         return response()->json(['mail' => $mail]);
     }
     public function store(CreateMailController $request, User $user)

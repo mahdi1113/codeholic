@@ -27,8 +27,15 @@ class SignupRequest extends FormRequest
             'name' => 'required|string',
             'email'=> 'required|email|unique:users',
             'password'=> 'required|confirmed',
+            'role_id' => 'required',
             Password::min(8)->mixedCase()->numbers()->symbols(),
             'role_id'=> 'required',
+        ];
+    }
+    public function attributes()
+    {
+        return [
+            'role_id' => 'نقش',
         ];
     }
 }
