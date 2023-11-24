@@ -12,7 +12,7 @@ class MailController extends Controller
 {
     public function sendMail(Request $request)
     {
-        $mail = Mail::where('user_id',$request->user_id)->get();
+        $mail = Mail::where('user_id',$request->user_id)->paginate(5);
         return response()->json(['mail' => $mail]);
         //////////////////////////////////////////////////////////////////////////////////////
         // $parentRoleID = 1; // مقدار مورد نظر برای role_id
@@ -46,7 +46,7 @@ class MailController extends Controller
 
     public function reciveMailsNotViewed($id)
     {
-        $mail = Mail::where('recive_id', $id)->where('status',0)->get();
+        $mail = Mail::where('recive_id', $id)->where('status',0)->paginate(5);
         return response()->json(['mail' => $mail]);
     }
     public function store(CreateMailController $request, User $user)

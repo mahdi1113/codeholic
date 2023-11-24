@@ -205,6 +205,10 @@ export default function DefultLayout() {
     // const dispatch = useDispatch();
     // const token = useSelector((state) => state.token);
     const token = localStorage.getItem('token');
+    // console.log(token);
+    if (!token) {
+        return <Navigate to="login" />;
+    }
     // console.log(router);
     // if (!token) {
     //     return <Navigate to="login" />;
@@ -308,14 +312,13 @@ export default function DefultLayout() {
                             )}
                             </li>
 
-                            {/* {router.routes[0].children.map((item,index) => {
-                                // console.log(item.path);
-                                return <Link className="nav-item nav-link" to={item.path}>
-                                    {item.name}
-                                </Link>
-                            })} */}
-
-
+                            <Link
+                                className="nav-link"
+                                to="/mails"
+                            >
+                                نامه ها
+                            </Link>
+                            
                             <Link
                                 className="nav-link"
                                 onClick={(e) => logoutUser(e)}
