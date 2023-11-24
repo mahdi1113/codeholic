@@ -42,6 +42,12 @@ export default function EditRole() {
                     setShowModal(true);
                 })
                 .catch((error) => {
+                    if(error.response.status == 422)
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text: error.response.data.message || 'There was an error processing your request.',
+                        });
                 });  
         }
     };
@@ -61,7 +67,11 @@ export default function EditRole() {
                 axiosClient
                     .delete(url)
                     .then((res) => {
-                        Swal.fire(res.data.msg);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: res.data.msg,
+                        });
                         if(res.status == 200){
                             setSelectedNode(null);
                             fetchData();
@@ -69,6 +79,19 @@ export default function EditRole() {
                         }     
                     })
                     .catch((error) => {
+                        console.log(error.response);
+                        if(error.response.status == 422)
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Warning',
+                                text: error.response.data.message || 'There was an error processing your request.',
+                            });
+                            if(error.response.status == 500)
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Warning',
+                                text: 'نمیتوانید نقشی که کاربر دارد را حذف کنید',
+                            });
                     });
                     }
                 });
@@ -92,7 +115,11 @@ export default function EditRole() {
             axiosClient
                 .put(url, params )
                 .then((res) => {
-                    Swal.fire(res.data.msg);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: res.data.msg,
+                    });
                     if(res.status == 200){
                         setParentSelectedNode(null);
                         fetchData();
@@ -100,6 +127,12 @@ export default function EditRole() {
                     }     
                 })
                 .catch((error) => {
+                    if(error.response.status == 422)
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Warning',
+                                text: error.response.data.message || 'There was an error processing your request.',
+                            });
                     console.log(error.response);
                 });
         }

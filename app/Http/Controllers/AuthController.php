@@ -13,12 +13,13 @@ class AuthController extends Controller
 {
     public function signup(SignupRequest $request)
     {
+        
         $data = $request->validated();
-
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
+            'role_id' => $data['role_id'],
             // 'role_id' => 1,
         ]);
         $token = $user->createToken('main')->plainTextToken;
