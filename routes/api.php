@@ -26,17 +26,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('test', [AuthController::class,'test']);
 });
 
-
-
 Route::post('login', [AuthController::class, 'login']);
 //role
 Route::apiResource('role', RoleController::class);
 //mail
 Route::post('mail/store/{user}',[MailController::class, 'store']);
-Route::post()
-Route::post('mail/sentLetters',[MailController::class, 'sentLetters']);
-Route::post('mail/receivedMails/{id}',[MailController::class, 'AllreceivedMails']);
-Route::post('mail/receivedMailsNotViewed/{id}',[MailController::class, 'receivedMailsNotViewed']);
+Route::post('mail/sendMail',[MailController::class, 'sendMail']);
+Route::post('mail/reciveMails/{id}',[MailController::class, 'AllreciveMails']);
+Route::post('mail/reciveMailsNotViewed/{id}',[MailController::class, 'reciveMailsNotViewed']);
 Route::post('mail/updateStatusMail/{mail}',[MailController::class, 'updateStatus']);
 Route::post('mail/show/{mail}',[MailController::class,'show']);
 Route::post('mail/allowedPersons/{id}',[MailController::class, 'allowedPersons']);

@@ -9,7 +9,7 @@ class Mail extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'title', 'description', 'user_id', 'receiv_id','status','image','file'];
+    protected $fillable = [ 'title', 'description', 'user_id', 'recive_id','status','image','file'];
 
     public function user()
     {
