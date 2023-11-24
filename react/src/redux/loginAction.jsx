@@ -108,6 +108,7 @@ import { createStore } from "redux";
 
 // export default store;
 // =====================================================================
+
 const tokenAdd = "SET_TOKEN";
 const userAdd = "SET_USER";
 const tokenRemove = "REMOVE_TOKEN";
@@ -126,7 +127,7 @@ export const RemoveToken = function () {
     };
 };
 
-export const adduser = function (user) {
+export const addUser = function (user) {
     return {
         type: userAdd,
         payload: user,
@@ -140,14 +141,16 @@ export const removeUser = function () {
 };
 
 const initialState = {
-    token: localStorage.getItem('token'),
-
+    // token: localStorage.getItem('token'),
+    user:''
 };
 
 function tokenReudcer(state = initialState, action) {
     switch (action.type) {
-        case tokenAdd:
-            return { ...state, token: action.payload };
+        // case tokenAdd:
+        //     return { ...state, token: action.payload };
+            case userAdd:
+            return { ...state, user: action.payload };
         default:
             return state;
     }

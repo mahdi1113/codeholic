@@ -2,7 +2,7 @@ import { Link, Navigate, Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axiosClient from "../axios";
-import { addToken } from "../redux/loginAction";
+import { addUser } from "../redux/loginAction";
 import {useState} from 'react'
 // import router from '../router'
 // import { matchingRoutes } from "../router";
@@ -10,7 +10,8 @@ import router from "../router";
 export default function DefultLayout() {
 
     let navigate = useNavigate();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
     // const token = useSelector((state) => state.token);
     const token = localStorage.getItem('token');
     // console.log(token);
@@ -32,7 +33,7 @@ export default function DefultLayout() {
     const logoutUser = function(e){
         e.preventDefault();
         axiosClient.post('/logout').then(res => {
-            // dispatch(addToken(''))
+            dispatch(addUser(''))
             localStorage.removeItem('token');
             return navigate('/login')
             // console.log(res);
@@ -137,7 +138,7 @@ export default function DefultLayout() {
                         </div>
                     </div>
                     <div className="d-flex" role="search">
-                        <span>!hello mahdi</span>
+                        <span>!hello {user.name}</span>
                         <i
                             className="bi bi-person-circle me-2"
                             style={{ fontSize: "18px" }}
