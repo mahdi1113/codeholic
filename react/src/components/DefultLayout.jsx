@@ -227,6 +227,7 @@ export default function DefultLayout() {
             // dispatch(addToken(''))
             localStorage.removeItem('token');
             return navigate('/login')
+            // console.log(res);
         })
         .catch(error => {
             alert(JSON.stringify(error))
@@ -318,7 +319,7 @@ export default function DefultLayout() {
                             >
                                 نامه ها
                             </Link>
-                            
+
                             <Link
                                 className="nav-link"
                                 onClick={(e) => logoutUser(e)}

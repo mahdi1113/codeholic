@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 class AuthController extends Controller
 {
-    public function signup(SignupRequest $request)
+    public function addUser(SignupRequest $request)
     {
         $data = $request->validated();
 
@@ -19,7 +19,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
-            // 'role_id' => 1,
+            'role_id' => 1,
         ]);
         $token = $user->createToken('main')->plainTextToken;
 
@@ -61,10 +61,11 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::user();
-        $user->currentAccessToken()->delete();
-        return response([
-            'success' => true,
-        ]);
+        return $user;
+        // $user->currentAccessToken()->delete();
+        // return response([
+        //     'success' => true,
+        // ]);
     }
 
     public function test()
