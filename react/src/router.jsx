@@ -1,8 +1,8 @@
 import {createBrowserRouter} from 'react-router-dom'
 import App from './App';
-import Dashboard from './views/Dashboard';
+import Dashboard from './views/Dashboard/Dashboard';
 import SignUp from './views/Signup';
-import Surveys from './views/Surveys';
+import Surveys from './views/Surveys/Surveys';
 import Login from './views/Login';
 import GuestLayout from './components/GuestLayout';
 import { Children } from 'react';
@@ -10,15 +10,15 @@ import DefultLayout from './components/DefultLayout';
 import Test from './views/Test';
 import CreateRole from './views/Role/CreateRole';
 import EditRole from './views/Role/EditRole';
+import Mails from './views/Mails/Mails';
 import PopupForm from './views/Role/EditRoleModal';
 
 // const tr = ['dashboard','surveys','signUp'];
 
 const route1 = [
     {
-        path: 'dashboard',
-        element: <Dashboard />,
-        name: 'داشبورد'
+        path: 'Dashboard',
+        element: <Dashboard />
     },
     {
         path: 'surveys',
@@ -35,6 +35,10 @@ const route1 = [
     {
         path: 'editRole',
         element: <EditRole />
+    },
+    {
+        path: 'mails',
+        element: <Mails />
     },
     {
         path: 'testrole',

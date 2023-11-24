@@ -22,18 +22,18 @@ use App\Http\Controllers\SurveyController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('survey', SurveyController::class);
-    Route::post('signup', [AuthController::class, 'signup']);
+    
     Route::post('test', [AuthController::class,'test']);
 });
 
 
-
+Route::post('signup', [AuthController::class, 'signup']);
 Route::post('login', [AuthController::class, 'login']);
 //role
 Route::apiResource('role', RoleController::class);
 //mail
 Route::post('mail/store/{user}',[MailController::class, 'store']);
-Route::post()
+// Route::post()
 Route::post('mail/sentLetters',[MailController::class, 'sentLetters']);
 Route::post('mail/receivedMails/{id}',[MailController::class, 'AllreceivedMails']);
 Route::post('mail/receivedMailsNotViewed/{id}',[MailController::class, 'receivedMailsNotViewed']);
