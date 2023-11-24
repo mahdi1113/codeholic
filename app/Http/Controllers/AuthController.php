@@ -11,16 +11,16 @@ use Carbon\Carbon;
 
 class AuthController extends Controller
 {
-    public function signup(SignupRequest $request)
+    public function addUser(SignupRequest $request)
     {
-        
+
         $data = $request->validated();
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
             'role_id' => $data['role_id'],
-            // 'role_id' => 1,
         ]);
         $token = $user->createToken('main')->plainTextToken;
 
@@ -65,7 +65,7 @@ class AuthController extends Controller
         $user->currentAccessToken()->delete();
         return response([
             'success' => true,
-        ]);
+        ],200);
     }
 
     public function test()
