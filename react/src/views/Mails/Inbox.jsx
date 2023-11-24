@@ -10,7 +10,8 @@ import CreateMailModal from './CreateMailModal';
 import ShowMailModal from './ShowMailModal';
 import axiosClient from "../../axios";
 import Swal from 'sweetalert2';
-
+import { useSelector } from "react-redux";
+import moment from 'jalali-moment';
 function Inbox({
     tab,
     data,
@@ -25,7 +26,7 @@ function Inbox({
     setLoading
 }) {
     
-    const user_id = 2;
+    const user = useSelector((state) => state.user);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showMailModal, setShowMailModal] = useState(false);
     const [mailModalData, setMailModalData] = useState({
@@ -33,7 +34,7 @@ function Inbox({
         description: '',
       });
     const [createModalData, setCreateModalData] = useState({
-        'user_id':user_id
+        'user_id':user.id
     });
     const [allowedPersons, setAllowedPersons] = useState([]);
     const handlePrePage = () =>{
@@ -46,12 +47,17 @@ function Inbox({
             setPage(page+1);
     }
     const handleAllMails = () =>{
-        setLoading(true);
-        setAllOrNotseen(1);
+        if(!allOrNotseen){
+            setLoading(true);
+            setAllOrNotseen(1);
+        }
+            
     }
     const handleUnreadMails = () =>{
-        setLoading(true);
-        setAllOrNotseen(0);
+        if(allOrNotseen){
+            setLoading(true);
+            setAllOrNotseen(0);
+        }
     }
     const openMailModal = () => {
         setShowMailModal(true);
@@ -60,7 +66,7 @@ function Inbox({
         setShowMailModal(false);
     };
     const openCreateModal = () => {
-        axiosClient.post('/mail/allowedPersons/'+ user_id).then(res => {
+        axiosClient.post('/mail/allowedPersons/'+ user.id).then(res => {
             setAllowedPersons(res.data);
             setShowCreateModal(true);
         })
@@ -72,7 +78,7 @@ function Inbox({
     };
     const closeCreateModal = () => {
         setShowCreateModal(false);
-        setCreateModalData({'user_id':user_id});
+        setCreateModalData({'user_id':user.id});
     };
     const handleTitleClick = (id, title, description, tab) => {
         setMailModalData({'title':title, 'description':description})
@@ -88,7 +94,7 @@ function Inbox({
     }
     const sendMail = () => {
         
-        axiosClient.post('mail/store/'+ user_id, createModalData).then(res => {
+        axiosClient.post('mail/store/'+ user.id, createModalData).then(res => {
             fetchData();
             Swal.fire({
                 icon: 'success',
@@ -132,8 +138,15 @@ function Inbox({
     <Table responsive className='text-center'>
       <thead>
         <tr className='col-1user_id'>
-          <th className='text-center col-3 font-weight-bold'>عنوان</th>
-          <th className='text-center col-9 font-weight-bold'>متن پیام</th>
+          <th className='text-center col-4 font-weight-bold'>عنوان</th>
+          <th className='text-center col-4 font-weight-bold'>تاریخ</th>
+          {tab == "recive" ?(
+          <th className='text-center col-4 font-weight-bold'>فرستنده</th>
+            ):(
+                <th className='text-center col-4 font-weight-bold'>گیرنده</th>
+
+            )
+        }
         </tr>
       </thead>
       <tbody>
@@ -141,13 +154,17 @@ function Inbox({
         allOrNotseen ? (
             <tr key={node.id} className={(node.status &&  tab === 'recive' || tab === 'send')? 'table-secondary' : ''}>
                 <td onClick={() => handleTitleClick(node.id,node.title, node.description, tab)}><a href="#" className="link-dark">{node.title}</a></td>
-                <td>{node.description.substring(0, Math.min(20, node.description.length))}</td>
+                {/* <td>{node.description.substring(0, Math.min(20, node.description.length))}</td> */}
+                <td>{moment(node.created_at, 'YYYY-MM-DD HH:mm:ss').format('jYYYY/jMM/jDD HH:mm:ss')}</td>
+                <td></td>
             </tr>
         ) : (
         node.status === 0 && (
             <tr key={node.id} className={tab === 'send' ? 'table-secondary' : ''}>
                 <td onClick={() => handleTitleClick(node.id,node.title, node.description, tab)}><a href="#" className="link-dark">{node.title}</a></td>
-                <td>{node.description.substring(0, Math.min(20, node.description.length))}</td>
+                {/* <td>{node.description.substring(0, Math.min(20, node.description.length))}</td> */}
+                <td>{moment(node.created_at, 'YYYY-MM-DD HH:mm:ss').format('jYYYY/jMM/jDD HH:mm:ss')}</td>
+                <td></td>
             </tr>
         )
         )

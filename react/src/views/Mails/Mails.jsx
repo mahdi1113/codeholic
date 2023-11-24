@@ -5,6 +5,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Inbox from './inbox';
 import axiosClient from "../../axios";
+import { useSelector } from "react-redux";
 function Mails() {
   const [tab, setTab] = useState("recive");
   const [data, setData] = useState([]);
@@ -12,16 +13,15 @@ function Mails() {
   const [maxPage, setMaxPage] = useState(1);
   const [allOrNotseen, setAllOrNotseen] = useState(1);
   const [loading, setLoading] = useState(false);
-
+  const user = useSelector((state) => state.user);
   const fetchData = async  () => {
     let parameters = {};
-    let user_id=2;
     let url='';
     if (tab == 'recive') {
         if(allOrNotseen)
-          url = '/mail/reciveMails/'+user_id;
+          url = '/mail/reciveMails/'+user.id;
         else
-          url = '/mail/reciveMailsNotViewed/'+user_id;
+          url = '/mail/reciveMailsNotViewed/'+user.id;
         parameters = {
         url: url,
         data: {
@@ -33,7 +33,7 @@ function Mails() {
         parameters = {
         url: '/mail/sendMail',
         data: {
-            user_id: user_id,
+            user_id: user.id,
             page: page,
         },
         };
@@ -93,8 +93,11 @@ useEffect(() => {
                     <Tab eventKey="recive" title="نامه های دریافتی">
                       {loading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                          <Spinner animation="border" />
+                          <Spinner animation="grow" variant="danger" />
+                          <Spinner animation="grow" variant="warning" />
+                          <Spinner animation="grow" variant="info" />
                         </div>
+                        
                       ) : (
                         <Inbox {...inboxProps}/>
                       )}
@@ -103,7 +106,9 @@ useEffect(() => {
                     <Tab eventKey="send" title="نامه های ارسالی">
                       {loading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                          <Spinner animation="border" />
+                          <Spinner animation="grow" variant="danger" />
+                          <Spinner animation="grow" variant="warning" />
+                          <Spinner animation="grow" variant="info" />
                         </div>
                       ) : (
                         <Inbox {...inboxProps}/>
