@@ -13,13 +13,14 @@ class AuthController extends Controller
 {
     public function addUser(SignupRequest $request)
     {
+
         $data = $request->validated();
 
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
-            'role_id' => 1,
+            'role_id' => $data['role_id'],
         ]);
         $token = $user->createToken('main')->plainTextToken;
 
@@ -61,11 +62,10 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::user();
-        return $user;
-        // $user->currentAccessToken()->delete();
-        // return response([
-        //     'success' => true,
-        // ]);
+        $user->currentAccessToken()->delete();
+        return response([
+            'success' => true,
+        ],200);
     }
 
     public function test()

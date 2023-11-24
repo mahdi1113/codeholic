@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axiosClient from "../axios";
 import { useDispatch, useSelector } from "react-redux";
 // import { getById,add } from "../redux/loginAction";
 import { addToken } from "../redux/loginAction";
+import Tree from "./Role/Tree";
+import Swal from 'sweetalert2';
 
 export default function Signup() {
     const [name, setName] = useState("");
@@ -10,31 +12,55 @@ export default function Signup() {
     const [password, setPassword] = useState("");
     const [password_confirmation, setPasswordConfirmation] = useState("");
     const [errors, setErrors] = useState("");
+    const [expandedNodes, setExpandedNodes] = useState([]);
+    const [selectedNode, setSelectedNode] = useState(null);
+    const [data, setData] = useState([]);
 
     const token = useSelector((state) => state);
     const dispatch = useDispatch();
 
     console.log(token);
-
+    const fetchData = () => {
+        axiosClient
+            .get("role")
+            .then((res) => {
+            setData(res.data);
+            })
+            .catch((error) => {
+                Swal.fire(error.response.data.message);
+            });
+    };
+    useEffect(() => {
+        fetchData();
+      }, []); // Include selectedNode as a dependency
     const handleSubmit = function (e) {
         e.preventDefault();
-
+        console.log(selectedNode);
         axiosClient
             .post("/signup", {
                 name: name,
                 email: email,
                 password: password,
                 password_confirmation: password_confirmation,
+                role_id: selectedNode
             })
             .then((res) => {
                 // dispatch(add('aaaa'))
                 localStorage.setItem('token',res.data.token)
                 dispatch(addToken(res.data.token));
-                console.log(res.data);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'success',
+                    text: 'نقش با موفقیت ایجاد شد',
+                  })
             })
             .catch((error) => {
                 // setErrors(error.response.data.errors);
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: error.response.data.message || 'There was an error processing your request.',
+                });
             });
     };
 
@@ -44,22 +70,6 @@ export default function Signup() {
     };
     return (
         <>
-             {/* <h3>Counter : {pro}</h3> */}
-            {/* <button
-                className="btn btn-primary me-2"
-                onClick={() =>
-                    dispatch(add({ id: 10, title: "aa", price: 500 }))
-                }
-            >
-                Increase
-            </button>{" "}
-
-            <button
-                className="btn btn-warning me-2"
-                onClick={() => dispatch(logout())}
-            >
-                Decrease
-            </button> */}
             <div
                 className="container d-flex justify-content-center align-items-center"
                 style={{ height: "100vh" }}
@@ -143,6 +153,23 @@ export default function Signup() {
                                     setPasswordConfirmation(e.target.value);
                                 }}
                             />
+                        </div>
+                        <div className="form-group mb-2">
+                            <label
+                                htmlFor="exampleSelect"
+                                className="mb-1"
+                            >
+                                    نقش این کاربر را انتخاب کنید
+                            </label>
+
+                            <Tree
+                            data={data}
+                            expandedNodes={expandedNodes}
+                            setExpandedNodes={setExpandedNodes}
+                            selectedNode={selectedNode}
+                            setSelectedNode={setSelectedNode}
+                            />
+
                         </div>
                         <div className="form-group mt-3">
                             <button className="btn btn-primary btn-block">
