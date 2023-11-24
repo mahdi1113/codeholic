@@ -19,9 +19,9 @@ function Mails() {
     let url='';
     if (tab == 'recive') {
         if(allOrNotseen)
-          url = '/mail/receivedMails/'+user_id;
+          url = '/mail/reciveMails/'+user_id;
         else
-          url = '/mail/receivedMailsNotViewed/'+user_id;
+          url = '/mail/reciveMailsNotViewed/'+user_id;
         parameters = {
         url: url,
         data: {
@@ -31,7 +31,7 @@ function Mails() {
     } else {
         // Set parameters for sent letters
         parameters = {
-        url: '/mail/sentLetters',
+        url: '/mail/sendMail',
         data: {
             user_id: user_id,
             page: page,
@@ -45,6 +45,7 @@ function Mails() {
     })
     .catch((error) => {
         console.log(error.response);
+        setLoading(false)
         });  
 }
 useEffect(() => {

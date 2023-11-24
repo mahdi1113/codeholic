@@ -25,7 +25,7 @@ function CreateMailModal({
   const handleSelectChange = (selected) => {
     setCreateModalData((prevData) => ({
       ...prevData,
-      ['receiv_id']: selected.value,
+      ['recive_id']: selected.value,
     }));
   };
   

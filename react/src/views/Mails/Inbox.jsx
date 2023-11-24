@@ -87,6 +87,7 @@ function Inbox({
         }
     }
     const sendMail = () => {
+        
         axiosClient.post('mail/store/'+ user_id, createModalData).then(res => {
             fetchData();
             Swal.fire({
@@ -96,6 +97,7 @@ function Inbox({
               }).then(() => closeCreateModal()); 
         })
         .catch((error) => {
+            console.log(createModalData);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
