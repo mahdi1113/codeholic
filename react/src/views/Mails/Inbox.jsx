@@ -80,8 +80,8 @@ function Inbox({
         setShowCreateModal(false);
         setCreateModalData({'user_id':user.id});
     };
-    const handleTitleClick = (id, title, description, tab) => {
-        setMailModalData({'title':title, 'description':description})
+    const handleTitleClick = (node, tab) => {
+        setMailModalData(node)
         openMailModal()
         if(tab == 'recive'){
             axiosClient.post('/mail/updateStatusMail/'+ id).then(res => {
@@ -153,18 +153,18 @@ function Inbox({
       {data && (data.map((node) => (
         allOrNotseen ? (
             <tr key={node.id} className={(node.status &&  tab === 'recive' || tab === 'send')? 'table-secondary' : ''}>
-                <td onClick={() => handleTitleClick(node.id,node.title, node.description, tab)}><a href="#" className="link-dark">{node.title}</a></td>
+                <td onClick={() => handleTitleClick(node, tab)}><a href="#" className="link-dark">{node.title}</a></td>
                 {/* <td>{node.description.substring(0, Math.min(20, node.description.length))}</td> */}
-                <td>{moment(node.created_at, 'YYYY-MM-DD HH:mm:ss').format('jYYYY/jMM/jDD HH:mm:ss')}</td>
-                <td></td>
+                <td>{moment(node.created_at, 'YYYY-MM-DD HH:mm:ss').locale('fa').format('jYYYY/jMM/jDD HH:mm:ss')}</td>
+                <td>{node.created_at}</td>
             </tr>
         ) : (
         node.status === 0 && (
             <tr key={node.id} className={tab === 'send' ? 'table-secondary' : ''}>
                 <td onClick={() => handleTitleClick(node.id,node.title, node.description, tab)}><a href="#" className="link-dark">{node.title}</a></td>
                 {/* <td>{node.description.substring(0, Math.min(20, node.description.length))}</td> */}
-                <td>{moment(node.created_at, 'YYYY-MM-DD HH:mm:ss').format('jYYYY/jMM/jDD HH:mm:ss')}</td>
-                <td></td>
+                <td>{moment(node.created_at, 'YYYY-MM-DD HH:mm:ss').locale('fa').format('jYYYY/jMM/jDD HH:mm:ss')}</td>
+                <td>{node.created_at}</td>
             </tr>
         )
         )
@@ -178,9 +178,10 @@ function Inbox({
             <CreateMailModal
                 showCreateModal={showCreateModal} 
                 closeCreateModal={closeCreateModal}
-                data={allowedPersons}
+                allowedPersons={allowedPersons}
                 sendMail={sendMail}
                 setCreateModalData={setCreateModalData}
+                createModalData={createModalData}
             />
         )}
         {showMailModal &&(

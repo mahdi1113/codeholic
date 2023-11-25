@@ -3,15 +3,18 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Select from 'react-select';
+import PrintableView from './PrintableView';
 import { useState, useEffect } from "react";
+import ReactDOMServer from 'react-dom/server';
 function CreateMailModal({
     showCreateModal,
     closeCreateModal,
-    data,
+    allowedPersons,
     sendMail,
     setCreateModalData,
+    createModalData,
 }){
-  const options = data.map(item => ({
+  const options = allowedPersons.map(item => ({
     value: item.id,
     label: `${item.name} - ${item.role.title}`
   }));
@@ -28,7 +31,16 @@ function CreateMailModal({
       ['recive_id']: selected.value,
     }));
   };
-  
+  const handlePrint = () => {
+    let printWindow = window.open('', '_blank');
+    console.log(createModalData);
+    let printableContent = ReactDOMServer.renderToStaticMarkup(
+    <PrintableView mailModalData={createModalData} />
+    );
+    printWindow.document.write(printableContent);
+    printWindow.document.close();
+    printWindow.print();
+  }
     return ( 
         <div>
       <Modal show={showCreateModal} onHide={closeCreateModal} size="lg">
@@ -37,7 +49,7 @@ function CreateMailModal({
         </Modal.Header>
         <Modal.Body>
         <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="ControlInput1">
               <Form.Label>عنوان</Form.Label>
               <Form.Control
                 type="text"
@@ -48,7 +60,7 @@ function CreateMailModal({
             </Form.Group>
             <Form.Group
               className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
+              controlId="ControlTextarea1"
             >
               <Form.Label> متن</Form.Label>
               <Form.Control 
@@ -71,6 +83,9 @@ function CreateMailModal({
         <Button variant="success" onClick={sendMail} className=" mt-1 d-block mx-auto">
             ارسال
           </Button>
+        <Button variant="primary" onClick={handlePrint} className=" mt-1 d-block mx-auto">
+            چاپ
+        </Button>
           <Button variant="secondary" onClick={closeCreateModal} className=" mt-1 d-block mx-auto">
             بستن
           </Button>
