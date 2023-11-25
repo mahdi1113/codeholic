@@ -12,13 +12,30 @@ function ShowMailModal({
 }){
   const handlePrint = () => {
     let printWindow = window.open('', '_blank');
-    console.log(mailModalData);
+    // console.log(mailModalData);
+    // console.log(mailModalData.created_at);
+    //   console.log(mailModalData.id);
+    //     console.log(mailModalData.recive_user.name);
+    //       console.log(mailModalData.recive_user.role.title);
+    //         console.log(mailModalData.title);
+    //           console.log(mailModalData.description);
+    //             console.log(mailModalData.user.name);
+    //               console.log(mailModalData.user.role.title);
     let printableContent = ReactDOMServer.renderToStaticMarkup(
-    <PrintableView mailModalData={mailModalData} />
+    <PrintableView 
+      created_date={mailModalData.created_at}
+      mail_id={mailModalData.id}
+      recive_name={mailModalData.recive_user.name}
+      recive_role={mailModalData.recive_user.role.title}
+      mail_title={mailModalData.title}
+      mail_description={mailModalData.description}
+      sender_name={mailModalData.user.name}
+      sender_role={mailModalData.user.role.title}
+     />
     );
     printWindow.document.write(printableContent);
     printWindow.document.close();
-    printWindow.print();
+    // printWindow.print();
   }
     return ( 
         <div>

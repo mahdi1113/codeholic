@@ -1,8 +1,16 @@
 import React from 'react';
 import logo from './Instagram-Logo.png';
 import moment from 'jalali-moment';
-function PrintableView({ mailModalData }) {
-  console.log(mailModalData);
+function PrintableView({ 
+    created_date,
+    mail_id,
+    recive_name,
+    recive_role,
+    mail_title,
+    mail_description,
+    sender_name,
+    sender_role,
+ }) {
 
   return (
     <html>
@@ -126,19 +134,24 @@ body {
               <img src={logo} alt="Logo" />
             </div>
             <div className="date">
-              تاریخ: {moment(mailModalData.created_at, 'YYYY-MM-DD HH:mm:ss').locale('fa').format('jYYYY/jMM/jDD')}
+              تاریخ: {moment(created_date, 'YYYY-MM-DD HH:mm:ss').locale('fa').format('jYYYY/jMM/jDD')}
               <br />
-              شماره: {mailModalData.id}
+              شماره: {mail_id}
             </div>
           </div>
-          <div className="title"> {mailModalData.title}</div>
+          <div className="title"> {mail_title}</div>
           <div className="page">
-            <p>جناب آقای {mailModalData.recive_id}</p>
-            <p>{mailModalData.recive_id} اداره فلان</p>
-            <p>{mailModalData.description}</p>
+            <p>با سلام و احترام</p>
+            <p>جناب آقای {recive_name}</p>
+            <p>{recive_role} اداره فلان</p>
+            <p>{mail_description}</p>
           </div>
           <div className="signature">
-            <div className="signature-text">امضا</div>
+            <div className="signature-text">امضا
+            <br/>
+            {sender_name}
+            <br/>
+            {sender_role}</div>
             <div className="signature-image">
               <img src={logo} alt="Signature" />
             </div>

@@ -35,7 +35,16 @@ function CreateMailModal({
     let printWindow = window.open('', '_blank');
     console.log(createModalData);
     let printableContent = ReactDOMServer.renderToStaticMarkup(
-    <PrintableView mailModalData={createModalData} />
+      <PrintableView 
+      created_date={createModalData.created_at}
+      mail_id={createModalData.id}
+      recive_name={createModalData.recive_user.name}
+      recive_role={createModalData.recive_user.role.title}
+      mail_title={createModalData.title}
+      mail_description={createModalData.description}
+      sender_name={createModalData.user.name}
+      sender_role={createModalData.user.role.title}
+     />
     );
     printWindow.document.write(printableContent);
     printWindow.document.close();

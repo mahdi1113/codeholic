@@ -84,7 +84,7 @@ function Inbox({
         setMailModalData(node)
         openMailModal()
         if(tab == 'recive'){
-            axiosClient.post('/mail/updateStatusMail/'+ id).then(res => {
+            axiosClient.post('/mail/updateStatusMail/'+ node.id).then(res => {
                 fetchData()
             })
             .catch((error) => {
