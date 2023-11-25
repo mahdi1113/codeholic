@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('recive_id');
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->tinyInteger('status')->default(0);
             $table->string('image')->nullable();
             $table->string('file')->nullable();

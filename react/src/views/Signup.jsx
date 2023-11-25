@@ -37,7 +37,7 @@ export default function Signup() {
         e.preventDefault();
         console.log(selectedNode);
         axiosClient
-            .post("/signup", {
+            .post("/addUser", {
                 name: name,
                 email: email,
                 password: password,

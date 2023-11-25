@@ -12,8 +12,23 @@ class MailController extends Controller
 {
     public function sendMail(Request $request)
     {
-        $mail = Mail::where('user_id',$request->user_id)->paginate(5);
-        return response()->json(['mail' => $mail]);
+        $mails = Mail::where('user_id',$request->user_id)->with([
+            'user' => function ($query) {
+                $query->select('id', 'name','role_id');
+            },
+            'user.role' => function ($query) {
+                $query->select('id', 'title');
+            },
+            'reciveUser' => function ($query) {
+                $query->select('id', 'name','role_id');
+            },
+            'reciveUser.role' => function ($query) {
+                $query->select('id', 'title');
+            },
+        ])
+        ->orderBy('created_at', 'desc')
+        ->paginate(5);
+        return response()->json(['mail' => $mails]);
         //////////////////////////////////////////////////////////////////////////////////////
         // $parentRoleID = 1; // مقدار مورد نظر برای role_id
 
@@ -40,32 +55,64 @@ class MailController extends Controller
 
     public function AllreciveMails($id)
     {
-        $mail = Mail::where('recive_id', $id)->get();
+        $mail = Mail::where('recive_id', $id)->with([
+            'user' => function ($query) {
+                $query->select('id', 'name','role_id');
+            },
+            'user.role' => function ($query) {
+                $query->select('id', 'title');
+            },
+            'reciveUser' => function ($query) {
+                $query->select('id', 'name','role_id');
+            },
+            'reciveUser.role' => function ($query) {
+                $query->select('id', 'title');
+            },
+        ])
+        ->orderBy('created_at', 'desc')
+        ->paginate(5);
         return response()->json(['mail' => $mail]);
     }
 
     public function reciveMailsNotViewed($id)
     {
-        $mail = Mail::where('recive_id', $id)->where('status',0)->paginate(5);
+        $mail = Mail::where('recive_id', $id)->where('status',0)->with([
+            'user' => function ($query) {
+                $query->select('id', 'name','role_id');
+            },
+            'user.role' => function ($query) {
+                $query->select('id', 'title');
+            },
+            'reciveUser' => function ($query) {
+                $query->select('id', 'name','role_id');
+            },
+            'reciveUser.role' => function ($query) {
+                $query->select('id', 'title');
+            },
+        ])
+        ->orderBy('created_at', 'desc')
+        ->paginate(5);
         return response()->json(['mail' => $mail]);
     }
     public function store(CreateMailController $request, User $user)
     {
-
         $data = $request->validated();
-
         // آپلود تصویر
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/images');
-            $data['image'] = basename($imagePath);
+            $image = $request->file('image');
+            $imageName = time() . '_' . hash('sha256', $image->getClientOriginalName()) . '.' . $image->extension();
+            $image->move(public_path('images'), $imageName);
+            $data['image'] = 'images/' . $imageName;
         }
-
         // آپلود فایل
         if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('public/files');
-            $data['file'] = basename($filePath);
+            $file = $request->file('file');
+            $fileName = time() . '_' . hash('sha256', $file->getClientOriginalName()) . '.' . $file->extension();
+            $file->move(public_path('files'), $fileName);
+            $data['file'] = 'files/' . $fileName;
         }
 
+        $data['recive_id'] = 2;
         $user->mails()->create($data);
         return response()->json(['msg' => 'نامه با موفقیت ارسال شد'], 200);
     }

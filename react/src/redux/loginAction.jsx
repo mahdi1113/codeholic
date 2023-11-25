@@ -1,4 +1,6 @@
 import { createStore } from "redux";
+import axiosClient from "../axios";
+import { useState } from "react";
 
 // const Login = "LOG_IN";
 // const Logout = "LOG_OUT";
@@ -139,16 +141,14 @@ export const removeUser = function () {
         type: userRemove,
     };
 };
-
-const initialState = {
-    // token: localStorage.getItem('token'),
-    user:''
-};
+   const initialState = {
+        user: '',
+    };
 
 function tokenReudcer(state = initialState, action) {
     switch (action.type) {
-        // case tokenAdd:
-        //     return { ...state, token: action.payload };
+        case tokenAdd:
+            return { ...state, token: action.payload };
             case userAdd:
             return { ...state, user: action.payload };
         default:
@@ -158,3 +158,37 @@ function tokenReudcer(state = initialState, action) {
 
 const store = createStore(tokenReudcer)
 export default store;
+// // // // // // // // // // // // // // // // // // // // // // //
+// let user = {};
+// const initialState = {}
+
+// async function fetchData() {
+//     try {
+//         const response = await axiosClient.post('au');
+//         user = response.data;
+//         // console.log("user", user);
+//     } catch (error) {
+//         console.log(error.response);
+//     }
+// }
+
+// // تابع fetchData را فراخوانی می‌کنیم
+// fetchData().then(() => {
+//     // اگر درخواست با موفقیت انجام شود، initialState را به‌روزرسانی کنید
+//     initialState.user = user;
+//     // console.log(initialState);
+// });
+
+// function tokenReducer(state = initialState, action) {
+//     switch (action.type) {
+//         case tokenAdd:
+//             return { ...state, token: action.payload };
+//         case userAdd:
+//             return { ...state, user: action.payload };
+//         default:
+//             return state;
+//     }
+// }
+
+// const store = createStore(tokenReducer);
+// export default store;
