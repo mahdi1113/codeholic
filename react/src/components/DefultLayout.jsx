@@ -3,25 +3,32 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axiosClient from "../axios";
 import { addUser } from "../redux/loginAction";
-import {useState} from 'react'
-// import router from '../router'
-// import { matchingRoutes } from "../router";
+import {useEffect, useState} from 'react'
+
 import router from "../router";
 export default function DefultLayout() {
-
     let navigate = useNavigate();
     const dispatch = useDispatch();
+
+    /////////////////////////////////////////
+    useEffect(() => {
+        axiosClient.post('au')
+            .then(response => {
+                console.log(response);
+                dispatch(addUser(response.data));
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [dispatch]);
+
+    /////////////////////////////////////////
     const user = useSelector((state) => state.user);
-    // const token = useSelector((state) => state.token);
+    console.log(user);
     const token = localStorage.getItem('token');
-    // console.log(token);
     if (!token) {
         return <Navigate to="login" />;
     }
-    // console.log(router);
-    // if (!token) {
-    //     return <Navigate to="login" />;
-    // }
 
     const [isRoleDropdownOpen, setRoleDropdownOpen] = useState(false);
     const handleMouseEnter = () => {
