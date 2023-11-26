@@ -92,9 +92,9 @@ function CreateMailModal({
         <Button variant="success" onClick={sendMail} className=" mt-1 d-block mx-auto">
             ارسال
           </Button>
-        <Button variant="primary" onClick={handlePrint} className=" mt-1 d-block mx-auto">
+        {/* <Button variant="primary" onClick={handlePrint} className=" mt-1 d-block mx-auto">
             چاپ
-        </Button>
+        </Button> */}
           <Button variant="secondary" onClick={closeCreateModal} className=" mt-1 d-block mx-auto">
             بستن
           </Button>

@@ -81,6 +81,7 @@ function Inbox({
         setCreateModalData({'user_id':user.id});
     };
     const handleTitleClick = (node, tab) => {
+        console.log(node);
         setMailModalData(node)
         openMailModal()
         if(tab == 'recive'){
@@ -151,20 +152,24 @@ function Inbox({
       </thead>
       <tbody>
       {data && (data.map((node) => (
-        allOrNotseen ? (
+        allOrNotseen || tab === 'send' ? (
             <tr key={node.id} className={(node.status &&  tab === 'recive' || tab === 'send')? 'table-secondary' : ''}>
                 <td onClick={() => handleTitleClick(node, tab)}><a href="#" className="link-dark">{node.title}</a></td>
                 {/* <td>{node.description.substring(0, Math.min(20, node.description.length))}</td> */}
                 <td>{moment(node.created_at, 'YYYY-MM-DD HH:mm:ss').locale('fa').format('jYYYY/jMM/jDD HH:mm:ss')}</td>
-                <td>{node.created_at}</td>
+                {tab === 'recive' ?(
+                <td>{node.user.name+' - '+node.user.role.title}</td>):
+                (<td>{node.recive_user.name+' - '+node.recive_user.role.title}</td>)}
             </tr>
         ) : (
         node.status === 0 && (
             <tr key={node.id} className={tab === 'send' ? 'table-secondary' : ''}>
-                <td onClick={() => handleTitleClick(node.id,node.title, node.description, tab)}><a href="#" className="link-dark">{node.title}</a></td>
+                <td onClick={() => handleTitleClick(node, tab)}><a href="#" className="link-dark">{node.title}</a></td>
                 {/* <td>{node.description.substring(0, Math.min(20, node.description.length))}</td> */}
                 <td>{moment(node.created_at, 'YYYY-MM-DD HH:mm:ss').locale('fa').format('jYYYY/jMM/jDD HH:mm:ss')}</td>
-                <td>{node.created_at}</td>
+                {tab === 'recive' ?(
+                <td>{node.user.name+' - '+node.user.role.title}</td>):
+                (<td>{node.recive_user.name+' - '+node.recive_user.role.title}</td>)}
             </tr>
         )
         )
