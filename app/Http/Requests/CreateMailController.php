@@ -24,7 +24,11 @@ class CreateReferenceRequest extends FormRequest
         return [
             "title" => 'required',
             "description" => 'required',
+<<<<<<< HEAD
             'receiv_id'=> 'required',
+=======
+            'recive_id'=> 'required',
+>>>>>>> 8cf7049e7d29bd6e431d8a411b20b058518c9388
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
             'file' => 'nullable|mimes:pdf',
         ];

@@ -29,7 +29,6 @@ class SignupRequest extends FormRequest
             'password'=> 'required|confirmed',
             // 'role_id' => 'required',
             Password::min(8)->mixedCase()->numbers()->symbols(),
-            'role_id'=> 'required',
         ];
     }
     // public function attributes()
