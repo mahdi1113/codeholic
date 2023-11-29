@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\TestController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\ReferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,21 +36,24 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::post('mail/reciveMailsNotViewed/{id}', [MailController::class, 'reciveMailsNotViewed']);
     Route::post('mail/updateStatusMail/{mail}', [MailController::class, 'updateStatus']);
     Route::post('mail/show/{mail}', [MailController::class, 'show']);
-    Route::post('mail/allowedPersons/{id}', [MailController::class, 'allowedPersons']);
+
     ///////////////////////////////
     Route::post('au',function(){
         return Auth::user();
     });
 });
-
+Route::post('addUser', [AuthController::class, 'addUser']);
 Route::post('mail/store/{user}', [MailController::class, 'store']);
 Route::post('mail/sendMail', [MailController::class, 'sendMail']);
     Route::post('mail/reciveMails/{id}', [MailController::class, 'AllreciveMails']);
     Route::post('mail/reciveMailsNotViewed/{id}', [MailController::class, 'reciveMailsNotViewed']);
-
 Route::post('login', [AuthController::class, 'login']);
 Route::post('aa',function(){
     return User::find(3);
 });
 
 Route::post('test',[TestController::class,'test']);
+
+
+Route::post('mail/refrence/{id}',[MailController::class, 'store']);
+Route::post('mail/allowedPersons/{user}', [MailController::class, 'allowedPersons']);

@@ -128,29 +128,42 @@ class MailController extends Controller
         return response()->json(['msg' => 'وضعیت نامه آپدیت شد']);
     }
 
-    public function allowedPersons($id)
+    public function allowedPersons(User $user)
     {
-        $parentRoleID = $id; // مقدار مورد نظر برای role_id
+        $parentRoleID = $user->role_id; // مقدار مورد نظر برای role_id
 
         $parentRole = Role::find($parentRoleID);
 
         $parent_id = $parentRole->parent_id;
 
+
         if ($parentRole) {
             $allChildrenIDs = $parentRole->allChildrenIDs();
-            $allCollege = Role::where('parent_id',$parent_id)->where('id', '!=' , $parentRoleID)->pluck('id')
+            $allCollege = Role::where('parent_id',$parent_id)->pluck('id')
             ->toArray();
             $parent = Role::where('id',$parent_id)->pluck('id')
             ->toArray();
             $data = array_merge($allChildrenIDs,$allCollege,$parent);
             sort($data);
         }
-        // $usersWithDesiredRoles = User::with('role')->whereIn('role_id', $data)->get();
 
-        $usersWithDesiredRoles = User::with(['role' => function ($query) {
-            $query->select('id', 'title');
-        }])->select('id', 'name','role_id')->whereIn('role_id', $data)->get();
+        $usersWithDesiredRoles = User::whereIn('role_id',$data)->get();
 
         return $usersWithDesiredRoles;
+
+
+        // $usersWithDesiredRoles = User::with('role')->whereIn('role_id', $data)->get();
+        // return $data;
+        // $usersWithDesiredRoles = User::with(['role' => function ($query) {
+        //     $query->select('id', 'title');
+        // }])->select('id', 'name','role_id')->whereIn('role_id', $data)->get();
+
     }
+
+
+        // $subChild = Role::where('id',$role->id)->with('subChild')->get();
+        // $father = Role::where('id',$role->parent_id)->get();
+        // $college = Role::where('parent_id',$role->parent_id)->where('id','!=',$role->id)->get();
+        // $mer = $subChild->merge($father)->merge($college);
+        // return $mer;
 }

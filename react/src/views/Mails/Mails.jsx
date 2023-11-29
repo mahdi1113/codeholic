@@ -19,15 +19,15 @@ function Mails() {
     let url='';
     if (tab == 'recive') {
         if(allOrNotseen)
-          url = '/mail/receivedMails/'+user_id;
+          url = '/mail/reciveMails/'+user_id;
         else
-          url = '/mail/receivedMailsNotViewed/'+user_id;
+          url = '/mail/reciveMailsNotViewed/'+user_id;
         parameters = {
         url: url,
         data: {
           page: page,
         }
-        }    
+        }
     } else {
         // Set parameters for sent letters
         parameters = {
@@ -45,12 +45,12 @@ function Mails() {
     })
     .catch((error) => {
         console.log(error.response);
-        });  
+        });
 }
 useEffect(() => {
   fetchData();
   }, [tab,allOrNotseen,page]);
-  
+
   const handleTab = (key) => {
     if(key != tab){
       setLoading(true);
@@ -58,9 +58,9 @@ useEffect(() => {
       setTab(key);
 
     }
-      
-      
-    
+
+
+
   }
   const inboxProps = {
     tab,
@@ -88,7 +88,7 @@ useEffect(() => {
                     fill
                     onSelect={handleTab}
                   >
-                    
+
                     <Tab eventKey="recive" title="نامه های دریافتی">
                       {loading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -98,7 +98,7 @@ useEffect(() => {
                         <Inbox {...inboxProps}/>
                       )}
                     </Tab>
-                    
+
                     <Tab eventKey="send" title="نامه های ارسالی">
                       {loading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -108,12 +108,12 @@ useEffect(() => {
                         <Inbox {...inboxProps}/>
                       )}
                     </Tab>
-                    
+
                   </Tabs>
                 </div>
               </div>
             </div>
-          
+
       );
 }
 

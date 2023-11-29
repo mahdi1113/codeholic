@@ -24,8 +24,8 @@ function Inbox({
     loading,
     setLoading
 }) {
-    
-    const user_id = 2;
+
+    const user_id = 4;
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showMailModal, setShowMailModal] = useState(false);
     const [mailModalData, setMailModalData] = useState({
@@ -66,8 +66,8 @@ function Inbox({
         })
         .catch((error) => {
             console.log(error.response);
-            });  
-        
+            });
+
 
     };
     const closeCreateModal = () => {
@@ -83,7 +83,7 @@ function Inbox({
             })
             .catch((error) => {
                 console.log(error.response);
-                });  
+                });
         }
     }
     const sendMail = () => {
@@ -93,7 +93,7 @@ function Inbox({
                 icon: 'success',
                 title: 'success',
                 text: res.data.msg,
-              }).then(() => closeCreateModal()); 
+              }).then(() => closeCreateModal());
         })
         .catch((error) => {
             Swal.fire({
@@ -101,10 +101,10 @@ function Inbox({
                 title: 'Error',
                 text: error.response.data.message,
               });
-            });  
-        
+            });
+
     }
-    return ( 
+    return (
     <>
     <ButtonToolbar
         className="justify-content-between"
@@ -150,14 +150,14 @@ function Inbox({
         )
         )
         )))}
-        
+
       </tbody>
     </Table>
     <div className="col-3 d-flex justify-content-center">
         <Button variant="success" onClick={openCreateModal} active>ایجاد نامه</Button>
         {showCreateModal &&(
             <CreateMailModal
-                showCreateModal={showCreateModal} 
+                showCreateModal={showCreateModal}
                 closeCreateModal={closeCreateModal}
                 data={allowedPersons}
                 sendMail={sendMail}
@@ -167,7 +167,7 @@ function Inbox({
         {showMailModal &&(
             <ShowMailModal
             mailModalData={mailModalData}
-            showMailModal={showMailModal} 
+            showMailModal={showMailModal}
             closeMailModal={closeMailModal}
             />
         )}
@@ -179,7 +179,7 @@ function Inbox({
             <Button variant="secondary" onClick={handlePrePage} active>قبلی</Button>
         </ButtonGroup>
     </div>
-    
+
     </>
     );
 }

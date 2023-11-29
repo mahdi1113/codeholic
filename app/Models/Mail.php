@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Morilog\Jalali\Jalalian;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +11,7 @@ class Mail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'user_id', 'recive_id', 'status', 'image', 'file'];
+    protected $fillable = ['title', 'description', 'user_id', 'recive_id', 'status', 'image', 'file','parent_id'];
 
     public function user()
     {
@@ -23,25 +22,15 @@ class Mail extends Model
     {
         return $this->belongsTo(User::class,'recive_id','id');
     }
-///////////////////////////////
-    // public function user2()
-    // {
-    //     return $this->belongsTo(User::class)->with('role');
-    // }
 
-    // public function reciveUser2()
-    // {
-    //     return $this->belongsTo(User::class,'recive_id','id')->with('role');
-    // }
-///////////////////////////////
-    public function getImagePathAttribute()
+    public function parent()
     {
-        return storage_path('app/public/images/' . $this->image);
+        return $this->belongsTo(Mail::class, 'parent_id');
     }
 
-    public function getFilePathAttribute()
+    public function ancestors()
     {
-        return storage_path('app/public/files/' . $this->file);
+        return $this->parent ? $this->parent->ancestors->prepend($this->parent) : collect();
     }
 
     public function getCreatedAtAttribute($value)
@@ -57,4 +46,28 @@ class Mail extends Model
             ->timezone(Config::get('app.timezone'))
             ->toDateTimeString();
     }
+    // public function References()
+    // {
+    //     return $this->hasMany(Reference::class);
+    // }
+///////////////////////////////
+    // public function user2()
+    // {
+    //     return $this->belongsTo(User::class)->with('role');
+    // }
+
+    // public function reciveUser2()
+    // {
+    //     return $this->belongsTo(User::class,'recive_id','id')->with('role');
+    // }
+///////////////////////////////
+    // public function getImagePathAttribute()
+    // {
+    //     return storage_path('app/public/images/' . $this->image);
+    // }
+
+    // public function getFilePathAttribute()
+    // {
+    //     return storage_path('app/public/files/' . $this->file);
+    // }
 }
