@@ -14,7 +14,6 @@ export default function DefultLayout() {
     useEffect(() => {
         axiosClient.post('au')
             .then(response => {
-                console.log(response);
                 dispatch(addUser(response.data));
             })
             .catch(error => {
@@ -24,7 +23,7 @@ export default function DefultLayout() {
 
     /////////////////////////////////////////
     const user = useSelector((state) => state.user);
-    console.log(user);
+    // console.log(user);
     const token = localStorage.getItem('token');
     if (!token) {
         return <Navigate to="login" />;

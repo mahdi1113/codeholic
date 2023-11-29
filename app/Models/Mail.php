@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Morilog\Jalali\Jalalian;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 class Mail extends Model
 {
@@ -43,18 +42,23 @@ class Mail extends Model
     {
         return storage_path('app/public/files/' . $this->file);
     }
-
+    
     public function getCreatedAtAttribute($value)
+
     {
-        return Carbon::createFromTimestamp(strtotime($value))
-            ->timezone(Config::get('app.timezone'))
-            ->toDateTimeString();
+
+        return Carbon::createFromTimestamp(strtotime($value))->timezone(Config::get('app.timezone'))->toDateTimeString();
+
     }
 
+
+
     public function getUpdatedAtAttribute($value)
+
     {
-        return Carbon::createFromTimestamp(strtotime($value))
-            ->timezone(Config::get('app.timezone'))
-            ->toDateTimeString();
+
+        return Carbon::createFromTimestamp(strtotime($value))->timezone(Config::get('app.timezone'))->toDateTimeString();
+
+
     }
 }

@@ -3,15 +3,18 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Select from 'react-select';
+import PrintableView from './PrintableView';
 import { useState, useEffect } from "react";
+import ReactDOMServer from 'react-dom/server';
 function CreateMailModal({
     showCreateModal,
     closeCreateModal,
-    data,
+    allowedPersons,
     sendMail,
     setCreateModalData,
+    createModalData,
 }){
-  const options = data.map(item => ({
+  const options = allowedPersons.map(item => ({
     value: item.id,
     label: `${item.name} - ${item.role.title}`
   }));
@@ -25,10 +28,28 @@ function CreateMailModal({
   const handleSelectChange = (selected) => {
     setCreateModalData((prevData) => ({
       ...prevData,
-      ['receiv_id']: selected.value,
+      ['recive_id']: selected.value,
     }));
   };
-  
+  const handlePrint = () => {
+    let printWindow = window.open('', '_blank');
+    console.log(createModalData);
+    let printableContent = ReactDOMServer.renderToStaticMarkup(
+      <PrintableView 
+      created_date={createModalData.created_at}
+      mail_id={createModalData.id}
+      recive_name={createModalData.recive_user.name}
+      recive_role={createModalData.recive_user.role.title}
+      mail_title={createModalData.title}
+      mail_description={createModalData.description}
+      sender_name={createModalData.user.name}
+      sender_role={createModalData.user.role.title}
+     />
+    );
+    printWindow.document.write(printableContent);
+    printWindow.document.close();
+    printWindow.print();
+  }
     return ( 
         <div>
       <Modal show={showCreateModal} onHide={closeCreateModal} size="lg">
@@ -37,7 +58,7 @@ function CreateMailModal({
         </Modal.Header>
         <Modal.Body>
         <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="ControlInput1">
               <Form.Label>عنوان</Form.Label>
               <Form.Control
                 type="text"
@@ -48,7 +69,7 @@ function CreateMailModal({
             </Form.Group>
             <Form.Group
               className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
+              controlId="ControlTextarea1"
             >
               <Form.Label> متن</Form.Label>
               <Form.Control 
@@ -71,6 +92,9 @@ function CreateMailModal({
         <Button variant="success" onClick={sendMail} className=" mt-1 d-block mx-auto">
             ارسال
           </Button>
+        {/* <Button variant="primary" onClick={handlePrint} className=" mt-1 d-block mx-auto">
+            چاپ
+        </Button> */}
           <Button variant="secondary" onClick={closeCreateModal} className=" mt-1 d-block mx-auto">
             بستن
           </Button>

@@ -24,7 +24,7 @@ class CreateMailController extends FormRequest
         return [
             "title" => 'required',
             "description" => 'required',
-            // 'receiv_id'=> 'required',
+            'recive_id'=> 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
             'file' => 'nullable|mimes:pdf',
         ];

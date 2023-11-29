@@ -32,6 +32,8 @@
 
     "bootstrap-rtl": "^3.3.4",
 
+    "jalali-moment": "^3.3.11",
+
     "react": "^18.2.0",
 
     "react-bootstrap": "^2.9.1",
