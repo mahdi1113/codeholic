@@ -14,6 +14,9 @@ class AuthController extends Controller
     public function addUser(SignupRequest $request)
     {
 
+        $errors = $request->validator->errors()->getMessages();
+        return $errors;
+
         $data = $request->validated();
 
         $user = User::create([

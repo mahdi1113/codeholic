@@ -2,22 +2,17 @@
 
 namespace App\Models;
 
-<<<<<<< HEAD
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
-=======
-use Carbon\Carbon;
->>>>>>> 8cf7049e7d29bd6e431d8a411b20b058518c9388
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
+
 
 class Mail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'user_id', 'recive_id', 'status', 'image', 'file','parent_id'];
+    protected $fillable = ['title', 'description', 'user_id', 'recive_id', 'status', 'image', 'file'];
 
     public function user()
     {
@@ -38,7 +33,7 @@ class Mail extends Model
     {
         return $this->parent ? $this->parent->ancestors->prepend($this->parent) : collect();
     }
-    
+
     public function getCreatedAtAttribute($value)
 
     {
@@ -57,10 +52,10 @@ class Mail extends Model
 
 
     }
-    // public function References()
-    // {
-    //     return $this->hasMany(Reference::class);
-    // }
+    public function references()
+    {
+        return $this->hasMany(Reference::class);
+    }
 ///////////////////////////////
     // public function user2()
     // {

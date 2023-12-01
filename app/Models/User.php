@@ -66,10 +66,9 @@ class User extends Authenticatable
         return $this->hasMany(Reference::class);
     }
 
-    public function rReferences()
+    public function referralsReceived()
     {
         return $this->hasMany(Reference::class,'recive_id','id');
     }
-
 
 }

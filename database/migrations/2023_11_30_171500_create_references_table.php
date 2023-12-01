@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mails', function (Blueprint $table) {
+        Schema::create('references', function (Blueprint $table) {
             $table->id();
+            $table->text('description');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('recive_id');
-            $table->string('title');
-            $table->text('description');
+            $table->foreign('recive_id')->references('id')->on('users');
+            $table->unsignedBigInteger('mail_id');
+            $table->foreign('mail_id')->references('id')->on('mails');
             $table->tinyInteger('status')->default(0);
-            $table->string('image')->nullable();
-            $table->string('file')->nullable();
+            $table->tinyInteger('isFinished')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mails');
+        Schema::dropIfExists('references');
     }
 };

@@ -25,32 +25,14 @@ class MailController extends Controller
             'reciveUser.role' => function ($query) {
                 $query->select('id', 'title');
             },
+            'user.references' => function ($query) {
+                $query->select('id', 'description','user_id');
+            },
         ])
         ->orderBy('created_at', 'desc')
-        ->paginate(5);
+        ->get();
+
         return response()->json(['mail' => $mails]);
-        //////////////////////////////////////////////////////////////////////////////////////
-        // $parentRoleID = 1; // مقدار مورد نظر برای role_id
-
-        // $parentRole = Role::find($parentRoleID);
-
-        // $parent_id = $parentRole->parent_id;
-
-        // if ($parentRole) {
-        //     $allChildrenIDs = $parentRole->allChildrenIDs();
-        //     $allCollege = Role::where('parent_id',$parent_id)->where('id', '!=' , $parentRoleID)->pluck('id')
-        //     ->toArray();
-        //     $parent = Role::where('id',$parent_id)->pluck('id')
-        //     ->toArray();
-        //     $data = array_merge($allChildrenIDs,$allCollege,$parent);
-        //     sort($data);
-        //     // $allChildrenIDs حالا شامل تمام idهای فرزندان و فرزندان فرزندان است بدون id والد
-        //     // return $allChildrenIDs;
-        // }
-        // $usersWithDesiredRoles = User::whereIn('role_id', $data)->get();
-
-        // return $usersWithDesiredRoles;
-/////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     public function AllreciveMails($id)
@@ -70,7 +52,7 @@ class MailController extends Controller
             },
         ])
         ->orderBy('created_at', 'desc')
-        ->paginate(5);
+        ->get();
         return response()->json(['mail' => $mail]);
     }
 
@@ -91,7 +73,7 @@ class MailController extends Controller
             },
         ])
         ->orderBy('created_at', 'desc')
-        ->paginate(5);
+        ->get();
         return response()->json(['mail' => $mail]);
     }
     public function store(CreateMailController $request, User $user)
@@ -112,7 +94,6 @@ class MailController extends Controller
             $data['file'] = 'files/' . $fileName;
         }
 
-        $data['recive_id'] = 2;
         $user->mails()->create($data);
         return response()->json(['msg' => 'نامه با موفقیت ارسال شد'], 200);
     }
@@ -147,6 +128,8 @@ class MailController extends Controller
             sort($data);
         }
 
+        // return $data;
+
         $usersWithDesiredRoles = User::whereIn('role_id',$data)->get();
 
         return $usersWithDesiredRoles;
@@ -160,10 +143,4 @@ class MailController extends Controller
 
     }
 
-
-        // $subChild = Role::where('id',$role->id)->with('subChild')->get();
-        // $father = Role::where('id',$role->parent_id)->get();
-        // $college = Role::where('parent_id',$role->parent_id)->where('id','!=',$role->id)->get();
-        // $mer = $subChild->merge($father)->merge($college);
-        // return $mer;
 }
