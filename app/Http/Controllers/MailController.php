@@ -25,9 +25,13 @@ class MailController extends Controller
             'reciveUser.role' => function ($query) {
                 $query->select('id', 'title');
             },
+            'user.references' => function ($query) {
+                $query->select('id', 'description','user_id');
+            },
         ])
         ->orderBy('created_at', 'desc')
-        ->paginate(5);
+        ->get();
+
         return response()->json(['mail' => $mails]);
     }
 
@@ -48,7 +52,7 @@ class MailController extends Controller
             },
         ])
         ->orderBy('created_at', 'desc')
-        ->paginate(5);
+        ->get();
         return response()->json(['mail' => $mail]);
     }
 
@@ -69,7 +73,7 @@ class MailController extends Controller
             },
         ])
         ->orderBy('created_at', 'desc')
-        ->paginate(5);
+        ->get();
         return response()->json(['mail' => $mail]);
     }
     public function store(CreateMailController $request, User $user)
@@ -126,24 +130,17 @@ class MailController extends Controller
 
         // return $data;
 
-        // $usersWithDesiredRoles = User::whereIn('role_id',$data)->get();
+        $usersWithDesiredRoles = User::whereIn('role_id',$data)->get();
 
-        // return $usersWithDesiredRoles;
+        return $usersWithDesiredRoles;
 
 
         // $usersWithDesiredRoles = User::with('role')->whereIn('role_id', $data)->get();
         // return $data;
-        $usersWithDesiredRoles = User::with(['role' => function ($query) {
-            $query->select('id', 'title');
-        }])->select('id', 'name','role_id')->whereIn('role_id', $data)->get();
-        return $usersWithDesiredRoles;
+        // $usersWithDesiredRoles = User::with(['role' => function ($query) {
+        //     $query->select('id', 'title');
+        // }])->select('id', 'name','role_id')->whereIn('role_id', $data)->get();
 
     }
 
-
-        // $subChild = Role::where('id',$role->id)->with('subChild')->get();
-        // $father = Role::where('id',$role->parent_id)->get();
-        // $college = Role::where('parent_id',$role->parent_id)->where('id','!=',$role->id)->get();
-        // $mer = $subChild->merge($father)->merge($college);
-        // return $mer;
 }

@@ -3,7 +3,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Spinner from 'react-bootstrap/Spinner';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Inbox from './inbox';
+import Inbox from "./Inbox";
 import axiosClient from "../../axios";
 import { useSelector } from "react-redux";
 function Mails() {
@@ -27,7 +27,7 @@ function Mails() {
         data: {
           page: page,
         }
-        }    
+        }
     } else {
         // Set parameters for sent letters
         parameters = {
@@ -45,8 +45,9 @@ function Mails() {
     })
     .catch((error) => {
         console.log(error.response);
+
         setLoading(false)
-        });  
+        });
 }
 useEffect(() => {
   fetchData();
@@ -59,9 +60,9 @@ useEffect(() => {
       setTab(key);
 
     }
-      
-      
-    
+
+
+
   }
   const inboxProps = {
     tab,
@@ -88,7 +89,7 @@ useEffect(() => {
                     fill
                     onSelect={handleTab}
                   >
-                    
+
                     <Tab eventKey="recive" title="نامه های دریافتی">
                       {loading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -96,12 +97,12 @@ useEffect(() => {
                           <Spinner animation="grow" variant="warning" />
                           <Spinner animation="grow" variant="info" />
                         </div>
-                        
+
                       ) : (
                         <Inbox {...inboxProps}/>
                       )}
                     </Tab>
-                    
+
                     <Tab eventKey="send" title="نامه های ارسالی">
                       {loading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -113,12 +114,12 @@ useEffect(() => {
                         <Inbox {...inboxProps}/>
                       )}
                     </Tab>
-                    
+
                   </Tabs>
                 </div>
               </div>
             </div>
-          
+
       );
 }
 

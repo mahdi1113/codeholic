@@ -60,4 +60,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Mail::class);
     }
+
+    public function references()
+    {
+        return $this->hasMany(Reference::class);
+    }
+
+    public function referralsReceived()
+    {
+        return $this->hasMany(Reference::class,'recive_id','id');
+    }
+
 }

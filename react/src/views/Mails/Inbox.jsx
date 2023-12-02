@@ -25,7 +25,7 @@ function Inbox({
     loading,
     setLoading
 }) {
-    
+
     const user = useSelector((state) => state.user);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showMailModal, setShowMailModal] = useState(false);
@@ -51,7 +51,7 @@ function Inbox({
             setLoading(true);
             setAllOrNotseen(1);
         }
-            
+
     }
     const handleUnreadMails = () =>{
         if(allOrNotseen){
@@ -75,8 +75,8 @@ function Inbox({
         })
         .catch((error) => {
             console.log(error.response);
-            });  
-        
+            });
+
 
     };
     const closeCreateModal = () => {
@@ -93,18 +93,18 @@ function Inbox({
             })
             .catch((error) => {
                 console.log(error.response);
-                });  
+                });
         }
     }
     const sendMail = () => {
-        
+
         axiosClient.post('mail/store/'+ user.id, createModalData).then(res => {
             fetchData();
             Swal.fire({
                 icon: 'success',
                 title: 'success',
                 text: res.data.msg,
-              }).then(() => closeCreateModal()); 
+              }).then(() => closeCreateModal());
         })
         .catch((error) => {
             console.log(createModalData);
@@ -113,10 +113,10 @@ function Inbox({
                 title: 'Error',
                 text: error.response.data.message,
               });
-            });  
-        
+            });
+
     }
-    return ( 
+    return (
     <>
     <ButtonToolbar
         className="justify-content-between"
@@ -177,14 +177,14 @@ function Inbox({
         )
         )
         )))}
-        
+
       </tbody>
     </Table>
     <div className="col-3 d-flex justify-content-center">
         <Button variant="success" onClick={openCreateModal} active>ایجاد نامه</Button>
         {showCreateModal &&(
             <CreateMailModal
-                showCreateModal={showCreateModal} 
+                showCreateModal={showCreateModal}
                 closeCreateModal={closeCreateModal}
                 allowedPersons={allowedPersons}
                 sendMail={sendMail}
@@ -195,7 +195,7 @@ function Inbox({
         {showMailModal &&(
             <ShowMailModal
             mailModalData={mailModalData}
-            showMailModal={showMailModal} 
+            showMailModal={showMailModal}
             closeMailModal={closeMailModal}
             />
         )}
@@ -207,7 +207,7 @@ function Inbox({
             <Button variant="secondary" onClick={handlePrePage} active>قبلی</Button>
         </ButtonGroup>
     </div>
-    
+
     </>
     );
 }

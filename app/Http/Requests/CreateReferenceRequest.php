@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateMailController extends FormRequest
+class CreateReferenceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +22,17 @@ class CreateMailController extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => 'required',
-            "description" => 'required',
-            'recive_id'=> 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg',
-            'file' => 'nullable|mimes:pdf',
+            'recive_id' => 'required',
+            'mail_id' => 'required',
+            'description' => 'required',
         ];
     }
+
     public function attributes()
     {
         return [
             'recive_id' => 'گیرنده',
+            'mail_id' => 'نامه'
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 
@@ -24,13 +25,38 @@ class SignupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'email'=> 'required|email|unique:users',
-            'password'=> 'required|confirmed',
-            // 'role_id' => 'required',
-            Password::min(8)->mixedCase()->numbers()->symbols(),
+            'username' => 'required|string|size:10',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'father_name' => 'required|string',
+            'national_code' => 'required',
+            'phone' => 'required',
+            'certificate_number' => 'required',
+            'certificate_serial' => 'required',
+            'postal_codes' => 'required',
+            'telephone' => 'required',
+            'telephone_extension' => 'required',
+            'address' => 'required',
+            'email' => 'required|email|unique:users',
+            'birth_date' => 'required',
+            'gender' => 'required',
+            'education_level' => 'required',
+            'password' => 'required|confirmed',
+            'role_id' => 'required',
         ];
     }
+
+    public function withValidator($validator)
+    {
+        $validator->stopOnFirstFailure();
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        $this->errorBag = 'custom_error_bag';
+        parent::failedValidation($validator);
+    }
+
     // public function attributes()
     // {
     //     // return [
@@ -38,3 +64,41 @@ class SignupRequest extends FormRequest
     //     // ];
     // }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 'first_name' => 'required|string',
+//             'last_name' => 'required|string',
+//             'father_name' => 'required|string',
+//             'national_code' => 'required',
+//             'phone' => 'required',
+//             'certificate_number' => 'required',
+//             'certificate_serial' => 'required',
+//             'postal_codes' => 'required',
+//             'telephone' => 'required',
+//             'telephone_extension' => 'required',
+//             'address' => 'required',
+//             'email' => 'required|email|unique:users',
+//             'birth_date' => 'required',
+//             'gender' => 'required',
+//             'education_level' => 'required',
+//             'password'=> 'required|confirmed',
+//             'role_id' => 'required',
