@@ -1,7 +1,7 @@
 import {createBrowserRouter} from 'react-router-dom'
 import App from './App';
 import Dashboard from './views/Dashboard/Dashboard';
-import SignUp from './views/Signup';
+import AddUser from './views/Users/AddUser';
 import Surveys from './views/Surveys/Surveys';
 import Login from './views/Login';
 import GuestLayout from './components/GuestLayout';
@@ -45,8 +45,8 @@ const route1 = [
         element: <PopupForm />
     },
     {
-        path: 'signUp',
-        element: <SignUp />
+        path: 'AddUser',
+        element: <AddUser />
     },
 ]
 

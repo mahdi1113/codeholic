@@ -29,12 +29,19 @@ export default function DefultLayout() {
         return <Navigate to="login" />;
     }
 
-    const [isRoleDropdownOpen, setRoleDropdownOpen] = useState(false);
-    const handleMouseEnter = () => {
-        setRoleDropdownOpen(true);
+    const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+    const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+    const handleRoleMouseEnter = () => {
+        setIsRoleDropdownOpen(true);
     };
-    const handleMouseLeave = () => {
-        setRoleDropdownOpen(false);
+    const handleRoleMouseLeave = () => {
+        setIsRoleDropdownOpen(false);
+    };
+    const handleUserMouseEnter = () => {
+        setIsUserDropdownOpen(true);
+    };
+    const handleUserMouseLeave = () => {
+        setIsUserDropdownOpen(false);
     };
     const logoutUser = function(e){
         e.preventDefault();
@@ -89,29 +96,71 @@ export default function DefultLayout() {
                             >
                                 نظر سنجی ها
                             </Link>
-                            <Link
-                                className="nav-item nav-link d-flex"
-                                to="/signUp"
-                            >
-                                ثبت کاربر
-                            </Link>
-
-                             <li className="nav-item dropdown">
+                            
+                            
+                            <li 
+                             className="nav-item dropdown"
+                             onMouseEnter={handleUserMouseEnter}
+                             onMouseLeave={handleUserMouseLeave}
+                             >
                             <a className="nav-link"
                                 href="#" id="navbarDarkDropdownMenuLink"
                                 role="button" data-bs-toggle="dropdown"
                                 aria-expanded="true"
-                                onMouseEnter={handleMouseEnter}
-                                onMouseLeave={handleMouseLeave}
+                            >
+                                کاربران
+                            </a>
+                            {isUserDropdownOpen  && (
+                            <ul className="dropdown-menu dropdown-menu show p-0 text-center"
+                                aria-labelledby="navbarDarkDropdownMenuLink" data-bs-popper="none"
+                                onMouseEnter={handleUserMouseEnter}
+                                onMouseLeave={handleUserMouseLeave}
+                                onClick={handleUserMouseLeave}
+                                >
+                                <li>
+                                    <Link
+                                        className="dropdown-item"
+                                        to="/AddUser"
+                                    >
+                                        ثبت کاربر
+                                    </Link>
+                                </li>
+                                <li>
+                                <Link
+                                    className="dropdown-item"
+                                    to="/AddUser"
+                                >
+                                    مدیریت کاربران
+                                </Link>
+                                </li>
+                            </ul>
+
+                            )}
+                            </li>
+
+
+
+
+
+
+                             <li 
+                             className="nav-item dropdown"
+                             onMouseEnter={handleRoleMouseEnter}
+                             onMouseLeave={handleRoleMouseLeave}
+                             >
+                            <a className="nav-link"
+                                href="#" id="navbarDarkDropdownMenuLink"
+                                role="button" data-bs-toggle="dropdown"
+                                aria-expanded="true"
                             >
                                 نقش ها
                             </a>
                             {isRoleDropdownOpen  && (
-                            <ul className="dropdown-menu dropdown-menu show"
+                            <ul className="dropdown-menu dropdown-menu show p-0 text-center"
                                 aria-labelledby="navbarDarkDropdownMenuLink" data-bs-popper="none"
-                                onMouseEnter={handleMouseEnter}
-                                onMouseLeave={handleMouseLeave}
-                                onClick={handleMouseLeave}
+                                onMouseEnter={handleRoleMouseEnter}
+                                onMouseLeave={handleRoleMouseLeave}
+                                onClick={handleRoleMouseLeave}
                                 >
                                 <li>
                                     <Link

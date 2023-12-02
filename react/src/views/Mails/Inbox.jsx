@@ -67,8 +67,11 @@ function Inbox({
     };
     const openCreateModal = () => {
         axiosClient.post('/mail/allowedPersons/'+ user.id).then(res => {
+            console.log(user.id);
+            console.log(res.data);
             setAllowedPersons(res.data);
             setShowCreateModal(true);
+            
         })
         .catch((error) => {
             console.log(error.response);

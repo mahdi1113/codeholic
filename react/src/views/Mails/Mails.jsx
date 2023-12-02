@@ -12,7 +12,7 @@ function Mails() {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [allOrNotseen, setAllOrNotseen] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user);
   const fetchData = async  () => {
     let parameters = {};
@@ -50,7 +50,7 @@ function Mails() {
 }
 useEffect(() => {
   fetchData();
-  }, [tab,allOrNotseen,page]);
+  }, [tab,allOrNotseen,page,user]);
   
   const handleTab = (key) => {
     if(key != tab){
@@ -78,10 +78,9 @@ useEffect(() => {
   };
 
     return (
-          <div className="row justify-content-center">
+          <div className="row justify-content-center mt-5">
             <div className="col-md-6">
               <div className="card">
-                <div className="card-header text-center"></div>
                   <Tabs
                     defaultActiveKey="recive"
                     id="fill-tab-example"

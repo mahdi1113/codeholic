@@ -81,10 +81,11 @@ function PrintableView({
   }
   
   .signature-text {
-    text-align: left;
+    text-align: center;
     font-size: 5mm;
     margin-top: 20mm;
     margin-left: 35mm;
+    padding-right: 120mm;
   }
   .signature-image {
     text-align: left;

@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form';
 import Select from 'react-select';
 import PrintableView from './PrintableView';
 import { useState, useEffect } from "react";
-import ReactDOMServer from 'react-dom/server';
 function CreateMailModal({
     showCreateModal,
     closeCreateModal,
@@ -31,25 +30,25 @@ function CreateMailModal({
       ['recive_id']: selected.value,
     }));
   };
-  const handlePrint = () => {
-    let printWindow = window.open('', '_blank');
-    console.log(createModalData);
-    let printableContent = ReactDOMServer.renderToStaticMarkup(
-      <PrintableView 
-      created_date={createModalData.created_at}
-      mail_id={createModalData.id}
-      recive_name={createModalData.recive_user.name}
-      recive_role={createModalData.recive_user.role.title}
-      mail_title={createModalData.title}
-      mail_description={createModalData.description}
-      sender_name={createModalData.user.name}
-      sender_role={createModalData.user.role.title}
-     />
-    );
-    printWindow.document.write(printableContent);
-    printWindow.document.close();
-    printWindow.print();
-  }
+  // const handlePrint = () => {
+  //   let printWindow = window.open('', '_blank');
+  //   console.log(createModalData);
+  //   let printableContent = ReactDOMServer.renderToStaticMarkup(
+  //     <PrintableView 
+  //     created_date={createModalData.created_at}
+  //     mail_id={createModalData.id}
+  //     recive_name={createModalData.recive_user.name}
+  //     recive_role={createModalData.recive_user.role.title}
+  //     mail_title={createModalData.title}
+  //     mail_description={createModalData.description}
+  //     sender_name={createModalData.user.name}
+  //     sender_role={createModalData.user.role.title}
+  //    />
+  //   );
+  //   printWindow.document.write(printableContent);
+  //   printWindow.document.close();
+  //   printWindow.print();
+  // }
     return ( 
         <div>
       <Modal show={showCreateModal} onHide={closeCreateModal} size="lg">
