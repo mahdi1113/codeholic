@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Inbox from "./Inbox";
 import axiosClient from "../../axios";
 import { useSelector } from "react-redux";
-function Mails() {
+function Referencess() {
   const [tab, setTab] = useState("recive");
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -19,9 +19,9 @@ function Mails() {
     let url='';
     if (tab == 'recive') {
         if(allOrNotseen)
-          url = '/mail/reciveMails/'+user.id;
+          url = '/mail/reciveReferencess/'+user.id;
         else
-          url = '/mail/reciveMailsNotViewed/'+user.id;
+          url = '/mail/reciveReferencessNotViewed/'+user.id;
         parameters = {
         url: url,
         data: {
@@ -29,10 +29,8 @@ function Mails() {
         }
         }
     } else {
-        // Set parameters for sent letters
-        
         parameters = {
-        url: '/mail/sendMail/'+user.id,
+        url: '/mail/sendReferences/'+user.id,
         data: {
             page: page,
         },
@@ -54,18 +52,14 @@ function Mails() {
 useEffect(() => {
   fetchData();
   }, [tab,allOrNotseen,page,user]);
-  
   const handleTab = (key) => {
     if(key != tab){
       setLoading(true);
       setPage(1);
       setTab(key);
-
     }
-
-
-
   }
+
   const inboxProps = {
     tab,
     data,
@@ -92,7 +86,7 @@ useEffect(() => {
                     onSelect={handleTab}
                   >
 
-                    <Tab eventKey="recive" title="نامه های دریافتی">
+                    <Tab eventKey="recive" title=" ارجاعات دریافتی">
                       {loading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                           <Spinner animation="grow" variant="danger" />
@@ -105,7 +99,7 @@ useEffect(() => {
                       )}
                     </Tab>
 
-                    <Tab eventKey="send" title="نامه های ارسالی">
+                    <Tab eventKey="send" title=" ارجاعات ارسالی">
                       {loading ? (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                           <Spinner animation="grow" variant="danger" />
@@ -125,4 +119,4 @@ useEffect(() => {
       );
 }
 
-export default Mails;
+export default Referencess;

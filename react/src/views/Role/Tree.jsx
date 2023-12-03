@@ -28,16 +28,18 @@ const Tree = ({
     <>
       <ul>
         {data.map((node) => (
-          <li key={node.id}>
+          <li key={node.id} >
             <input
                 type="checkbox"
                 checked={node.id === selectedNode}
                 onChange={() => handleCheckboxChange(node.id)}
                 style={{ marginLeft: "5px" }}
+                
               />
             <span
               onClick={() => toggleNode(node.id)}
               style={{ cursor: "pointer", fontWeight: "bold" }}
+              className="text-nowrap"
             >
               {node.title}
             </span>

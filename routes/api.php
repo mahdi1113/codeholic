@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::post('test', [AuthController::class, 'test']);
 
     //role
-    Route::apiResource('role', RoleController::class);
+    
     //mail
     // Route::post('mail/store/{user}', [MailController::class, 'store']);
     // Route::post('mail/sendMail', [MailController::class, 'sendMail']);
@@ -36,26 +36,27 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::post('mail/reciveMailsNotViewed/{id}', [MailController::class, 'reciveMailsNotViewed']);
     Route::post('mail/updateStatusMail/{mail}', [MailController::class, 'updateStatus']);
     Route::post('mail/show/{mail}', [MailController::class, 'show']);
-
+    Route::apiResource('role', RoleController::class);
+    // Route::post('addUser', [AuthController::class, 'addUser']);
     ///////////////////////////////
     Route::post('au',function(){
         return Auth::user();
     });
 });
-// Route::post('addUser', [AuthController::class, 'addUser']);
+Route::apiResource('role', RoleController::class);
 Route::post('addUser', [AuthController::class, 'addUser']);
 Route::post('mail/store/{user}', [MailController::class, 'store']);
-Route::post('mail/sendMail', [MailController::class, 'sendMail']);
-    Route::post('mail/reciveMails/{id}', [MailController::class, 'AllreciveMails']);
+
+    
     Route::post('mail/reciveMailsNotViewed/{id}', [MailController::class, 'reciveMailsNotViewed']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('aa',function(){
     return User::find(3);
 });
-
+Route::post('mail/reciveMails/{id}', [MailController::class, 'AllreciveMails']);
 Route::post('test',[TestController::class,'test']);
 Route::post('mail/allowedPersons/{user}', [MailController::class, 'allowedPersons']);
-
+Route::post('mail/sendMail/{user}', [MailController::class, 'sendMail']);
 // reference
 Route::post('reference/store/{user}',[ReferenceController::class, 'store']);
 Route::post('reference/references/{user}',[ReferenceController::class, 'references']);
