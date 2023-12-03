@@ -6,8 +6,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Table from 'react-bootstrap/Table';
 import { useState, useEffect } from "react";
-import CreateMailModal from './CreateMailModal';
-import ShowMailModal from './ShowMailModal';
+import ShowReferencesModal from './ShowReferencesModal';
 import axiosClient from "../../axios";
 import Swal from 'sweetalert2';
 import { useSelector } from "react-redux";
@@ -27,9 +26,8 @@ function Inbox({
 }) {
 
     const user = useSelector((state) => state.user);
-    const [showCreateModal, setShowCreateModal] = useState(false);
-    const [showMailModal, setShowMailModal] = useState(false);
-    const [mailModalData, setMailModalData] = useState({
+    const [ShowReferencesModal, setShowReferencesModal] = useState(false);
+    const [mailModalData, setReferencesModalData] = useState({
         title: '',
         description: '',
       });
@@ -37,7 +35,6 @@ function Inbox({
         'user_id':user.id
     });
     const [allowedPersons, setAllowedPersons] = useState([]);
-    const [refrence, setRefrence] = useState(null);
     const handlePrePage = () =>{
         console.log(data);
         if (page > 1)
@@ -47,25 +44,25 @@ function Inbox({
         if (page < maxPage)
             setPage(page+1);
     }
-    const handleAllMails = () =>{
+    const handleAllReferencess = () =>{
         if(!allOrNotseen){
             setLoading(true);
             setAllOrNotseen(1);
         }
 
     }
-    const handleUnreadMails = () =>{
+    const handleUnreadReferencess = () =>{
         if(allOrNotseen){
             setLoading(true);
             setAllOrNotseen(0);
         }
     }
-    const openMailModal = () => {
+    const openReferencesModal = () => {
         axiosClient.post('/mail/allowedPersons/'+ user.id).then(res => {
             // console.log(user.id);
             // console.log(res.data);
             setAllowedPersons(res.data);
-            setShowMailModal(true);
+            setShowReferencesModal(true);
             
         })
         .catch((error) => {
@@ -73,37 +70,20 @@ function Inbox({
             });
         
     };
-    const closeMailModal = () => {
-        setShowMailModal(false);
+    const closeReferencesModal = () => {
+        setShowReferencesModal(false);
     };
     // useEffect(() => {
     //     console.log('user.role_id :: ',user);
     //     console.log('allowedPersons :: ',allowedPersons);
     // },[allowedPersons])
-    const openCreateModal = () => {
-        axiosClient.post('/mail/allowedPersons/'+ user.id).then(res => {
-            // console.log(user.id);
-            // console.log(res.data);
-            setAllowedPersons(res.data);
-            setShowCreateModal(true);
-            
-        })
-        .catch((error) => {
-            console.log(error.response);
-            });
-
-
-    };
-    const closeCreateModal = () => {
-        setShowCreateModal(false);
-        setCreateModalData({'user_id':user.id});
-    };
+  
     const handleTitleClick = (node, tab) => {
         // console.log(node);
-        setMailModalData(node)
-        openMailModal()
+        setReferencesModalData(node)
+        openReferencesModal()
         if(tab == 'recive'){
-            axiosClient.post('/mail/updateStatusMail/'+ node.id).then(res => {
+            axiosClient.post('/mail/updateStatusReferences/'+ node.id).then(res => {
                 fetchData()
             })
             .catch((error) => {
@@ -111,7 +91,7 @@ function Inbox({
                 });
         }
     }
-    const sendMail = () => {
+    const sendReferences = () => {
 
         axiosClient.post('mail/store/'+ user.id, createModalData).then(res => {
             fetchData();
@@ -150,14 +130,14 @@ function Inbox({
                     icon: 'error',
                     title: 'error',
                     text: "نامه قبلا ارجاع داده شده",
-                  }).then(() => closeMailModal());
+                  }).then(() => closeReferencesModal());
             }
             else{
             Swal.fire({
                 icon: 'success',
                 title: 'success',
                 text: res.data.msg,
-              }).then(() => closeMailModal());
+              }).then(() => closeReferencesModal());
             }
         })
         .catch((error) => {
@@ -192,8 +172,8 @@ function Inbox({
         </InputGroup>
         {tab != "send" && (
         <ButtonGroup aria-label="First group" className='col-md-5'>
-          <Button variant={allOrNotseen ? ("primary") : ("secondary")} onClick={handleAllMails}>همه نامه ها</Button>
-          <Button variant={!allOrNotseen ? ("primary") : ("secondary")} onClick={handleUnreadMails}>مشاهده نشده ها</Button>
+          <Button variant={allOrNotseen ? ("primary") : ("secondary")} onClick={handleAllReferencess}>همه نامه ها</Button>
+          <Button variant={!allOrNotseen ? ("primary") : ("secondary")} onClick={handleUnreadReferencess}>مشاهده نشده ها</Button>
         </ButtonGroup>
         )}
     </ButtonToolbar>
@@ -240,23 +220,12 @@ function Inbox({
       </tbody>
     </Table>
     <div className="col-3 d-flex justify-content-center">
-        <Button variant="success" onClick={openCreateModal} active>ایجاد نامه</Button>
-        {showCreateModal &&(
-            <CreateMailModal
-                showCreateModal={showCreateModal}
-                closeCreateModal={closeCreateModal}
-                allowedPersons={allowedPersons}
-                sendMail={sendMail}
-                setCreateModalData={setCreateModalData}
-                createModalData={createModalData}
-            />
-        )}
-        {showMailModal &&(
-            <ShowMailModal
+        {ShowReferencesModal &&(
+            <ShowReferencesModal
             mailModalData={mailModalData}
-            setMailModalData={setMailModalData}
-            showMailModal={showMailModal}
-            closeMailModal={closeMailModal}
+            setReferencesModalData={setReferencesModalData}
+            ShowReferencesModal={ShowReferencesModal}
+            closeReferencesModal={closeReferencesModal}
             allowedPersons={allowedPersons}
             handleRefrence={handleRefrence}
             />

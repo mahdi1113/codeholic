@@ -186,6 +186,13 @@ export default function DefultLayout() {
 
                             <Link
                                 className="nav-link"
+                                to="/References"
+                            >
+                                ارجاعات
+                            </Link>
+
+                            <Link
+                                className="nav-link"
                                 onClick={(e) => logoutUser(e)}
                             >
                                 خروج

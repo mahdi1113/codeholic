@@ -10,28 +10,24 @@ use App\Http\Requests\CreateMailController;
 
 class MailController extends Controller
 {
-    public function sendMail(Request $request)
+    public function sendMail(User $user)
     {
-        $mails = Mail::where('user_id',$request->user_id)->with([
+        $mails = Mail::where('user_id',$user->id)->with([
             'user' => function ($query) {
-                $query->select('id', 'name','role_id');
+                $query->select('id', 'first_name','role_id');
             },
             'user.role' => function ($query) {
                 $query->select('id', 'title');
             },
             'reciveUser' => function ($query) {
-                $query->select('id', 'name','role_id');
+                $query->select('id', 'first_name','role_id');
             },
             'reciveUser.role' => function ($query) {
                 $query->select('id', 'title');
             },
-            'user.references' => function ($query) {
-                $query->select('id', 'description','user_id');
-            },
         ])
         ->orderBy('created_at', 'desc')
         ->get();
-
         return response()->json(['mail' => $mails]);
     }
 
@@ -39,13 +35,13 @@ class MailController extends Controller
     {
         $mail = Mail::where('recive_id', $id)->with([
             'user' => function ($query) {
-                $query->select('id', 'name','role_id');
+                $query->select('id', 'first_name','role_id');
             },
             'user.role' => function ($query) {
                 $query->select('id', 'title');
             },
             'reciveUser' => function ($query) {
-                $query->select('id', 'name','role_id');
+                $query->select('id', 'first_name','role_id');
             },
             'reciveUser.role' => function ($query) {
                 $query->select('id', 'title');
@@ -60,13 +56,13 @@ class MailController extends Controller
     {
         $mail = Mail::where('recive_id', $id)->where('status',0)->with([
             'user' => function ($query) {
-                $query->select('id', 'name','role_id');
+                $query->select('id', 'first_name','role_id');
             },
             'user.role' => function ($query) {
                 $query->select('id', 'title');
             },
             'reciveUser' => function ($query) {
-                $query->select('id', 'name','role_id');
+                $query->select('id', 'first_name','role_id');
             },
             'reciveUser.role' => function ($query) {
                 $query->select('id', 'title');
@@ -130,16 +126,18 @@ class MailController extends Controller
 
         // return $data;
 
-        $usersWithDesiredRoles = User::whereIn('role_id',$data)->get();
+        // $usersWithDesiredRoles = User::whereIn('role_id',$data)->pluck()->get();
 
-        return $usersWithDesiredRoles;
+        // return $usersWithDesiredRoles;
 
 
         // $usersWithDesiredRoles = User::with('role')->whereIn('role_id', $data)->get();
         // return $data;
-        // $usersWithDesiredRoles = User::with(['role' => function ($query) {
-        //     $query->select('id', 'title');
-        // }])->select('id', 'name','role_id')->whereIn('role_id', $data)->get();
+
+        $usersWithDesiredRoles = User::with(['role' => function ($query) {
+            $query->select('id', 'title');
+        }])->select('id', 'first_name','last_name','role_id')->whereIn('role_id', $data)->get();
+        return $usersWithDesiredRoles;
 
     }
 

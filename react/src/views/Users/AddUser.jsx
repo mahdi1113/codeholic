@@ -12,23 +12,23 @@ export default function AddUser() {
     const [formData, setFormData] = useState({
       username: '',
       password: '',
-      confirm_password: '',
-      name: '',
+      password_confirmation: '',
+      first_name: '',
       last_name: '',
       father_name: '',
       national_code: '',
-      inputSex: '',
-      // birth_date: '',
+      gender: 'male',
+      birth_date: moment(new Date()).format('YYYY/MM/DD'),
       certificate_number: '',
       certificate_serial: '',
-      // certificate_date: '',
+      certificate_date: moment(new Date()).format('YYYY/MM/DD'),
       certificate_place: '',
-      degree_of_education: '',
+      education_level: '',
       phone: '',
       email: '',
       telephone: '',
       telephone_extension: '',
-      postal_code: '',
+      postal_codes: '',
       address: '',
     });
     const [expandedNodes, setExpandedNodes] = useState([]);
@@ -53,21 +53,39 @@ export default function AddUser() {
     useEffect(() => {
         fetchData();
       }, []); // Include selectedNode as a dependency
-
-      useEffect(() => {
-        console.log(formData);
-      }, [formData]); // In
     const handleSubmit = function (e) {
-      console.log("mydata :: " ,birthDate);
-      console.log(certificateDate);
       e.preventDefault();
       const formDataToSend = new FormData();
+      console.log(moment(birthDate).format('YYYY/MM/DD'));
+      formDataToSend.append('birth_date',moment(birthDate).format('YYYY/MM/DD'));
+      formDataToSend.append('certificate_date',moment(certificateDate).format('YYYY/MM/DD'));
+      formDataToSend.append('role_id',selectedNode);
       Object.entries(formData).forEach(([fieldID, fieldValue]) => {
-        console.log(fieldID, fieldValue);
         formDataToSend.append(fieldID, fieldValue);
+        // console.log([fieldID, fieldValue]);
       });
-      formDataToSend.append('birth_date',moment(birthDate).format('YYYY-MM-DD'))
-      formDataToSend.append('certificate_date',moment(birthDate).format('YYYY-MM-DD'))
+      console.log(!isNaN(selectedNode));
+      console.log('role_id',selectedNode);
+      axiosClient
+            .post("addUser",formDataToSend)
+            .then((res) => {
+                Swal.fire(res.data.msg);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: res.data.msg,
+                });
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log(error.response);
+                if(error.response.status == 422)
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Warning',
+                        text: error.response.data.message || 'There was an error processing your request.',
+                    });
+            });
     };
     const handleChange = (e) => {
       const { id, value } = e.target;
@@ -101,15 +119,15 @@ export default function AddUser() {
               <input value={formData["password"]} onChange={handleChange} type="password" className="form-control" id="password"/>
             </div>
             <div className="form-group col-md-2 mt-3">
-              <label className="text-nowrap" htmlFor="confirm_password">تکرار رمز عبور :</label>
+              <label className="text-nowrap" htmlFor="password_confirmation">تکرار رمز عبور :</label>
               
-              <input value={formData["confirm_password"]} onChange={handleChange} type="password" className="form-control " id="confirm_password"/>
+              <input value={formData["password_confirmation"]} onChange={handleChange} type="password" className="form-control " id="password_confirmation"/>
             </div>
         </div>
           <div className="row">
             <div className="form-group col-md-2 mt-3">
             <label className="text-nowrap" htmlFor="name">نام :</label>
-              <input value={formData["name"]} onChange={handleChange} type="text" className="form-control " id="name"/>
+              <input value={formData["first_name"]} onChange={handleChange} type="text" className="form-control " id="first_name"/>
             </div>
             <div className="form-group col-md-2 mt-3">
             <label className="text-nowrap" htmlFor="last_name">نام خانوادگی :</label>
@@ -124,8 +142,8 @@ export default function AddUser() {
               <input value={formData["national_code"]} onChange={handleChange} type="text" className="form-control " id="national_code"/>
             </div>
             <div className="form-group col-md-1 mt-3">
-            <label className="text-nowrap" htmlFor="inputSex">جنسیت :</label>
-            <select onChange={handleChange} className="form-select form-select-sm" id="inputSex">
+            <label className="text-nowrap" htmlFor="gender">جنسیت :</label>
+            <select onChange={handleChange} className="form-select form-select-sm" id="gender">
               <option value="male">مرد</option>
               <option value="female">زن</option>
             </select>
@@ -135,6 +153,7 @@ export default function AddUser() {
             
               <CDatePicker 
               firstDayOfWeek={6}
+              date={new Date()}
               placeholder="" 
               onStartDateChange={setBirthDate}
               locale="fa-IR" 
@@ -171,8 +190,8 @@ export default function AddUser() {
               <input value={formData["certificate_place"]} onChange={handleChange} type="text" className="form-control " id="certificate_place"/>
             </div>
             <div className="form-group col-md-3 mt-3">
-            <label className="text-nowrap" htmlFor="degree_of_education">مدرک تحصیلی :</label>
-              <input value={formData["degree_of_education"]} onChange={handleChange} type="text" className="form-control " id="degree_of_education"/>
+            <label className="text-nowrap" htmlFor="education_level">مدرک تحصیلی :</label>
+              <input value={formData["education_level"]} onChange={handleChange} type="text" className="form-control " id="education_level"/>
             </div>
           </div>
           <div className="row">
@@ -196,8 +215,8 @@ export default function AddUser() {
                 <input value={formData["telephone_extension"]} onChange={handleChange} type="text" className="form-control " id="telephone_extension"/>
             </div>
             <div className="form-group col-md-2 mt-3">
-                <label className="text-nowrap" htmlFor="postal_code">کدپستی :</label>
-                  <input value={formData["postal_code"]} onChange={handleChange} type="text" className="form-control " id="postal_code"/>
+                <label className="text-nowrap" htmlFor="postal_codes">کدپستی :</label>
+                  <input value={formData["postal_codes"]} onChange={handleChange} type="text" className="form-control " id="postal_codes"/>
               </div>
             </div>
             <div className="row">

@@ -15,8 +15,9 @@ function CreateMailModal({
 }){
   const options = allowedPersons.map(item => ({
     value: item.id,
-    label: `${item.name} - ${item.role.title}`
+    label: `${item.first_name} ${item.last_name} - ${item.role_id}`
   }));
+
   const handleFromChange = (e) => {
     const { name, value } = e.target;
     setCreateModalData((prevData) => ({

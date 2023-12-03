@@ -14,17 +14,18 @@ class AuthController extends Controller
     public function addUser(SignupRequest $request)
     {
 
-        $errors = $request->validator->errors()->getMessages();
-        return $errors;
+        // return $request;
+
+        // return $request;
+
+        // $errors = $request->validator->errors()->getMessages();
+        // return $errors;
 
         $data = $request->validated();
-
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'role_id' => $data['role_id'],
-        ]);
+        // return $data;
+        // $data = $request->all();
+        // $data['role_id'] = (int) $data['role_id'];
+        $user = User::create($data);
         $token = $user->createToken('main')->plainTextToken;
 
         return response([

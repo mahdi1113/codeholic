@@ -12,6 +12,8 @@ import CreateRole from './views/Role/CreateRole';
 import EditRole from './views/Role/EditRole';
 import Mails from './views/Mails/Mails';
 import PopupForm from './views/Role/EditRoleModal';
+import References from './views/References/References';
+
 
 // const tr = ['dashboard','surveys','signUp'];
 
@@ -48,6 +50,11 @@ const route1 = [
         path: 'AddUser',
         element: <AddUser />
     },
+    {
+        path: 'References',
+        element: <References />
+    },
+    
 ]
 
 const router2 = [
@@ -55,6 +62,10 @@ const router2 = [
         path: 'Login',
         element: <Login />
     },
+    // {
+    //     path: 'AddUser',
+    //     element: <AddUser />
+    // },
 ]
 
 // const matchingRoutes = route1.filter(route => tr.includes(route.path));

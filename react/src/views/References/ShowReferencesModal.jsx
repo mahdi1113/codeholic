@@ -6,7 +6,7 @@ import PrintableView from './PrintableView';
 import Select from 'react-select';
 import { useState, useEffect } from "react";
 import ReactDOMServer from 'react-dom/server';
-function ShowMailModal({
+function ShowReferencesModal({
   mailModalData,
   setMailModalData,
   showMailModal,
@@ -115,4 +115,4 @@ function ShowMailModal({
      );
 }
 
-export default ShowMailModal;
+export default ShowReferencesModal;
